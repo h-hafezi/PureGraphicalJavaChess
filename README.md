@@ -1,4 +1,4 @@
-# PureGraphicalJavaChess
+# Pure Graphical Java Chess With Swing
 
 a pure java chess with JAVA SWING 
 
