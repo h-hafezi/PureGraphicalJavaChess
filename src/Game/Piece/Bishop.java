@@ -10,8 +10,8 @@ public class Bishop extends Piece {
         super(colour);
     }
 
-    ImageIcon blackIcon =new ImageIcon("src/main/resources/Pictures/pieces/bb.png");
-    ImageIcon whiteIcon =new ImageIcon("src/main/resources/Pictures/pieces/wb.png");
+    ImageIcon blackIcon =new ImageIcon("src/resources/Pictures/pieces/bb.png");
+    ImageIcon whiteIcon =new ImageIcon("src/resources/Pictures/pieces/wb.png");
 
     @Override
     public ImageIcon getIcon() {

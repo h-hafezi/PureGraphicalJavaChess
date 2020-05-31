@@ -13,8 +13,8 @@ public class Rook extends Piece {
         super(colour);
     }
 
-    ImageIcon blackIcon = new ImageIcon("src/main/resources/Pictures/pieces/br.png");
-    ImageIcon whiteIcon = new ImageIcon("src/main/resources/Pictures/pieces/wr.png");
+    ImageIcon blackIcon = new ImageIcon("src/resources/Pictures/pieces/br.png");
+    ImageIcon whiteIcon = new ImageIcon("src/resources/Pictures/pieces/wr.png");
 
     @Override
     public ImageIcon getIcon() {

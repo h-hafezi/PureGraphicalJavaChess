@@ -13,8 +13,8 @@ public class King extends Piece {
         super(colour);
     }
 
-    ImageIcon blackIcon = new ImageIcon("src/main/resources/Pictures/pieces/bk.png");
-    ImageIcon whiteIcon = new ImageIcon("src/main/resources/Pictures/pieces/wk.png");
+    ImageIcon blackIcon = new ImageIcon("src/resources/Pictures/pieces/bk.png");
+    ImageIcon whiteIcon = new ImageIcon("src/resources/Pictures/pieces/wk.png");
 
     @Override
     public ImageIcon getIcon() {

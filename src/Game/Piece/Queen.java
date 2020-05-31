@@ -10,8 +10,8 @@ public class Queen extends Piece {
         super(colour);
     }
 
-    ImageIcon blackIcon =new ImageIcon("src/main/resources/Pictures/pieces/bq.png");
-    ImageIcon whiteIcon =new ImageIcon("src/main/resources/Pictures/pieces/wq.png");
+    ImageIcon blackIcon =new ImageIcon("src/resources/Pictures/pieces/bq.png");
+    ImageIcon whiteIcon =new ImageIcon("src/resources/Pictures/pieces/wq.png");
 
     @Override
     public ImageIcon getIcon() {

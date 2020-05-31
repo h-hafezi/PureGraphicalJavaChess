@@ -11,8 +11,8 @@ public class Knight extends Piece {
     }
 
 
-    ImageIcon blackIcon =new ImageIcon("src/main/resources/Pictures/pieces/bn.png");
-    ImageIcon whiteIcon =new ImageIcon("src/main/resources/Pictures/pieces/wn.png");
+    ImageIcon blackIcon =new ImageIcon("src/resources/Pictures/pieces/bn.png");
+    ImageIcon whiteIcon =new ImageIcon("src/resources/Pictures/pieces/wn.png");
 
     @Override
     public ImageIcon getIcon() {

@@ -10,8 +10,8 @@ import java.awt.event.ActionListener;
 public class AccountMenu extends JFrame implements ActionListener {
 
     private boolean mutenessBool = false;
-    private Icon notMuteIcon = new ImageIcon("src/main/resources/Pictures/Webp.net-resizeimage (4).png");
-    private Icon muteIcon = new ImageIcon("src/main/resources/Pictures/Webp.net-resizeimage (2).png");
+    private Icon notMuteIcon = new ImageIcon("src/resources/Pictures/Webp.net-resizeimage (4).png");
+    private Icon muteIcon = new ImageIcon("src/resources/Pictures/Webp.net-resizeimage (2).png");
     private JButton muteness;
     private JButton newGameButton;
 
@@ -22,7 +22,7 @@ public class AccountMenu extends JFrame implements ActionListener {
 
     public AccountMenu() {
         setLayout(new BorderLayout());
-        setContentPane(new JLabel(new ImageIcon("src/main/resources/Pictures/how-to-win-a-game-of-chess-in-two-moves.jpg")));
+        setContentPane(new JLabel(new ImageIcon("src/resources/Pictures/how-to-win-a-game-of-chess-in-two-moves.jpg")));
         setLayout(new FlowLayout());
 
         setTitle("chess game");
@@ -33,7 +33,7 @@ public class AccountMenu extends JFrame implements ActionListener {
         Container c = getContentPane();
         c.setLayout(null);
 
-        ImageIcon img = new ImageIcon("src/main/resources/Pictures/chess_piece_king.png");
+        ImageIcon img = new ImageIcon("src/resources/Pictures/chess_piece_king.png");
         this.setIconImage(img.getImage());
 
         JMenuBar menuBar = new JMenuBar();

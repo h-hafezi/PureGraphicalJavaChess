@@ -9,8 +9,8 @@ import java.util.Arrays;
 public class LoginMenu extends JFrame implements ActionListener {
 
     private boolean mutenessBool = false;
-    private Icon notMuteIcon = new ImageIcon("src/main/resources/Pictures/Webp.net-resizeimage (4).png");
-    private Icon muteIcon = new ImageIcon("src/main/resources/Pictures/Webp.net-resizeimage (2).png");
+    private Icon notMuteIcon = new ImageIcon("src/resources/Pictures/Webp.net-resizeimage (4).png");
+    private Icon muteIcon = new ImageIcon("src/resources/Pictures/Webp.net-resizeimage (2).png");
     private JButton muteness;
 
     private JLabel name;
@@ -42,7 +42,7 @@ public class LoginMenu extends JFrame implements ActionListener {
         BackgroundMusic.backgroundMusic.start();
 
         setLayout(new BorderLayout());
-        setContentPane(new JLabel(new ImageIcon("src/main/resources/Pictures/how-to-win-a-game-of-chess-in-two-moves.jpg")));
+        setContentPane(new JLabel(new ImageIcon("src/resources/Pictures/how-to-win-a-game-of-chess-in-two-moves.jpg")));
         setLayout(new FlowLayout());
 
         setTitle("chess game");
@@ -50,7 +50,7 @@ public class LoginMenu extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
-        ImageIcon img = new ImageIcon("src/main/resources/Pictures/chess_piece_king.png");
+        ImageIcon img = new ImageIcon("src/resources/Pictures/chess_piece_king.png");
         this.setIconImage(img.getImage());
 
         // Components of the Form

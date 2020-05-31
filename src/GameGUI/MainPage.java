@@ -128,7 +128,7 @@ public class MainPage extends JFrame implements ActionListener {
         //adding the icon
         JLabel icon = new JLabel("");
         icon.setSize(300, 300);
-        icon.setIcon(new ImageIcon("src/main/resources/Pictures/chess-pngrepo-com (2).png"));
+        icon.setIcon(new ImageIcon("src/resources/Pictures/chess-pngrepo-com (2).png"));
         move.add(icon, gbc);
 
         JLabel junk1 = new JLabel("           ");
@@ -316,7 +316,7 @@ public class MainPage extends JFrame implements ActionListener {
 
         //setting image and icon of Jframe
         this.setTitle("chess");
-        ImageIcon img = new ImageIcon("src/main/resources/Pictures/chess_piece_king.png");
+        ImageIcon img = new ImageIcon("src/resources/Pictures/chess_piece_king.png");
         this.setIconImage(img.getImage());
 
         MainPage.game = game;

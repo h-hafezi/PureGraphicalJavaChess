@@ -10,8 +10,8 @@ public class Pawn extends Piece {
         super(colour);
     }
 
-    ImageIcon blackIcon =new ImageIcon("src/main/resources/Pictures/pieces/bp.png");
-    ImageIcon whiteIcon =new ImageIcon("src/main/resources/Pictures/pieces/wp.png");
+    ImageIcon blackIcon =new ImageIcon("src/resources/Pictures/pieces/bp.png");
+    ImageIcon whiteIcon =new ImageIcon("src/resources/Pictures/pieces/wp.png");
 
     @Override
     public ImageIcon getIcon() {

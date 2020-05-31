@@ -6,13 +6,13 @@ import java.io.FileInputStream;
 import javazoom.jl.player.Player;
 
 public class BackgroundMusic {
-    public static BackgroundMusic backgroundMusic = new BackgroundMusic("src\\main\\resources\\Audio\\Perfect.mp3");
-    public static BackgroundMusic selectPiece = new BackgroundMusic("src\\main\\resources\\Audio\\1.mp3");
-    public static BackgroundMusic badSelectPiece = new BackgroundMusic("src\\main\\resources\\Audio\\1.mp3");
-    public static BackgroundMusic movePiece = new BackgroundMusic("src\\main\\resources\\Audio\\moveWithOutKill.mp3");
-    public static BackgroundMusic check = new BackgroundMusic("src\\main\\resources\\Audio\\Ckeck.mp3");
-    public static BackgroundMusic checkMate = new BackgroundMusic("src\\main\\resources\\Audio\\checkmate.mp3");
-    public static BackgroundMusic killPiece = new BackgroundMusic("src\\main\\resources\\Audio\\kill.mp3");
+    public static BackgroundMusic backgroundMusic = new BackgroundMusic("src\\resources\\Audio\\Perfect.mp3");
+    public static BackgroundMusic selectPiece = new BackgroundMusic("src\\resources\\Audio\\1.mp3");
+    public static BackgroundMusic badSelectPiece = new BackgroundMusic("src\\resources\\Audio\\1.mp3");
+    public static BackgroundMusic movePiece = new BackgroundMusic("src\\resources\\Audio\\moveWithOutKill.mp3");
+    public static BackgroundMusic check = new BackgroundMusic("src\\resources\\Audio\\Ckeck.mp3");
+    public static BackgroundMusic checkMate = new BackgroundMusic("src\\resources\\Audio\\checkmate.mp3");
+    public static BackgroundMusic killPiece = new BackgroundMusic("src\\resources\\Audio\\kill.mp3");
 
     private String filename;
     private static Player player;

@@ -23,13 +23,8 @@ public class Person implements Serializable {
         allPeople.add(this);
     }
 
-    public static boolean register(String username, String password, String name) {
-        if (isTherePersonWithUsername(username)) {
-            return false;
-        } else {
-            new Person(username, password, name);
-            return true;
-        }
+    public static void register(String username, String password, String name) {
+        new Person(username, password, name);
     }
 
     public static void deleteAccount() {
@@ -71,7 +66,7 @@ public class Person implements Serializable {
         return personLoged;
     }
 
-    public static void changePassWord( String newPassword) {
+    public static void changePassWord(String newPassword) {
         personLoged.password = newPassword;
     }
 
@@ -111,7 +106,7 @@ public class Person implements Serializable {
         return arrayList;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
 
