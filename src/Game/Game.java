@@ -3,6 +3,7 @@ package Game;
 import Game.Board.Board;
 import Game.Move.Move;
 import Game.Tile.Tile;
+import PreGame.Person;
 
 public class Game {
     public static Game game;
@@ -148,18 +149,27 @@ public class Game {
     }
 
     public void win(Colour colour) {
-
+        if (colour.equals(Colour.WHITE)) {
+            Person.getPersonWithUsername(white_username).win();
+            Person.getPersonWithUsername(black_username).lose();
+        } else {
+            Person.getPersonWithUsername(white_username).lose();
+            Person.getPersonWithUsername(black_username).win();
+        }
     }
 
     public void draw() {
-
+        Person.getPersonWithUsername(white_username).draw();
+        Person.getPersonWithUsername(black_username).draw();
     }
 
     public void giveUp() {
-        isFinished = false;
+        isFinished = true;
         muteness = false;
         selected_tile = null;
     }
+
+
 
 
 }

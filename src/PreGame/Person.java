@@ -8,18 +8,13 @@ public class Person implements Serializable {
     private static ArrayList<Person> allPeople = new ArrayList<>();
     private static Person personLoged;
     private String password;
-    private String name;
     private String username;
-    private int draw;
-    private int win;
-    private int numberOfPlays;
+    private int point;
 
     public Person(String username, String password, String name) {
         this.password = password;
         this.username = username;
-        draw = 0;
-        win = 0;
-        numberOfPlays = 0;
+        this.point = 0;
         allPeople.add(this);
     }
 
@@ -56,12 +51,6 @@ public class Person implements Serializable {
         return null;
     }
 
-    public static boolean isPassWordCorrect(String password, String username) {
-        Person person = getPersonWithUsername(username);
-        assert person != null;
-        return person.password.equals(password);
-    }
-
     public static Person getPersonLoged() {
         return personLoged;
     }
@@ -79,31 +68,13 @@ public class Person implements Serializable {
     }
 
     public int getPoint() {
-        return draw;
+        return point;
     }
 
-    public int getWin() {
-        return win;
-    }
 
-    public int getNumberOfPlays() {
-        return numberOfPlays;
-    }
-
-    public static ArrayList<Person> getBestPlayers(String sortFactor) {
-        ArrayList<Person> arrayList = new ArrayList<>(allPeople);
-        switch (sortFactor) {
-            case "number of wins":
-                arrayList.sort((Comparator.comparingInt(Person::getWin)));
-                break;
-            case "number of point":
-                arrayList.sort((Comparator.comparingInt(Person::getPoint)));
-                break;
-            case "number of games":
-                arrayList.sort((Comparator.comparingInt(Person::getNumberOfPlays)));
-                break;
-        }
-        return arrayList;
+    public static ArrayList<Person> getBestPlayers() {
+        allPeople.sort((Comparator.comparingInt(Person::getPoint)));
+        return allPeople;
     }
 
     public String getUsername() {
@@ -112,5 +83,17 @@ public class Person implements Serializable {
 
     public static void setPersonLoged(Person personLoged) {
         Person.personLoged = personLoged;
+    }
+
+    public void win() {
+        this.point += 3;
+    }
+
+    public void lose() {
+        this.point -= 1;
+    }
+
+    public void draw() {
+        this.point++;
     }
 }

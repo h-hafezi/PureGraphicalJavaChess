@@ -116,6 +116,8 @@ public class Check {
         return isWhiteKingChecked() && arrayList.isEmpty() && Game.game.isWhiteTurn();
     }
 
+    //checks for draw
+
     public static boolean checkStalemate() {
         Game game = Game.game;
 
@@ -168,8 +170,10 @@ public class Check {
         return Game.game.ceilingOfMoves < Move.getAllMoves().size();
     }
 
+    //two methods below are used for castling to make sure that castling is all right and tile between rook and king aren't checked
+
     public static boolean isTileCheckedByBlacks(int x, int y) {
-        /*int kingX = 0;
+        int kingX = 0;
         int kingY = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -190,12 +194,10 @@ public class Check {
             Game.game.imaginaryUndo();
             return false;
         }
-         */
-        return false;
     }
 
     public static boolean isTileCheckedByWhites(int x, int y) {
-        /*int kingX = 0;
+        int kingX = 0;
         int kingY = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -216,7 +218,5 @@ public class Check {
             Game.game.imaginaryUndo();
             return false;
         }
-         */
-        return false;
     }
 }

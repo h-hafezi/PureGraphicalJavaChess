@@ -12,11 +12,11 @@ enum CastlingType {
 
 public class Castling {
 
-    private Move move;
     public CastlingType castlingType;
 
+    //we would specify its type first
+
     public Castling(Move move) {
-        this.move = move;
         if (move.getToTile() == Board.getCurrentBoard().getTiles()[1][0]) {
             this.castlingType = CastlingType.BLACK_LEFT;
         } else if (move.getToTile() == Board.getCurrentBoard().getTiles()[6][0]) {
@@ -95,7 +95,7 @@ public class Castling {
                 Rook rook = (Rook) piece1;
                 if (!rook.hasMoved()) {
                     for (int i = 1; i <= 3; i++) {
-                        if (Check.isTileCheckedByBlacks(i, 0) || !Board.getCurrentBoard().getTiles()[i][7].isEmpty()) {
+                        if (!Check.isTileCheckedByBlacks(i, 0) || !Board.getCurrentBoard().getTiles()[i][7].isEmpty()) {
                             return false;
                         }
                     }
@@ -182,6 +182,8 @@ public class Castling {
         return false;
     }
 
+    //according to type it moves the rook, the king is moved with with Move object
+
     public void moveCastle() {
         if (castlingType.equals(CastlingType.BLACK_LEFT)) {
             Piece piece = Board.getCurrentBoard().getTiles()[0][0].getPiece();
@@ -202,6 +204,8 @@ public class Castling {
         }
 
     }
+
+    //when move is a type of Castling then, we undo it with this method rather than the normal method
 
     public void undo(){
         Board board=Board.getCurrentBoard();

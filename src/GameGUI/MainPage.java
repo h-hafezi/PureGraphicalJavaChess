@@ -19,6 +19,7 @@ public class MainPage extends JFrame implements ActionListener {
     private Color backGroundColour = new Color(255, 255, 102);
 
     public static JButton[][] chessBoardSquares = new JButton[8][8];
+
     private static final String COLS = "ABCDEFGH";
 
     public final void initializeBoard() {
@@ -89,7 +90,7 @@ public class MainPage extends JFrame implements ActionListener {
         gbc.gridy = 0;
 
         message = new JLabel("");
-        message.setText("         white should start the game");
+        message.setText("         " + "white should start the game");
 
         JLabel junk1 = new JLabel("     ");
         JLabel junk2 = new JLabel("     ");
@@ -314,7 +315,8 @@ public class MainPage extends JFrame implements ActionListener {
 
     public MainPage(Game.Game game) {
 
-        //setting image and icon of Jframe
+        //setting image and icon of J frame
+
         this.setTitle("chess");
         ImageIcon img = new ImageIcon("src/resources/Pictures/chess_piece_king.png");
         this.setIconImage(img.getImage());
@@ -353,6 +355,8 @@ public class MainPage extends JFrame implements ActionListener {
     public static void setMessage(String text) {
         message.setText("         " + text);
     }
+
+    //setting action event for tiles, we have already set it up for menu items and our components
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {

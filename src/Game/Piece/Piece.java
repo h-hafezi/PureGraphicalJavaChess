@@ -62,6 +62,8 @@ public abstract class Piece {
         return this.hasMoved;
     }
 
+    //this method is only used when we want to do transformation that we set hasMoved, true!
+
     public void setHasMoved(boolean hasMoved) {
         this.hasMoved = hasMoved;
     }

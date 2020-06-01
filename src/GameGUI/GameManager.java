@@ -18,6 +18,14 @@ import static PreGame.BackgroundMusic.*;
 
 public class GameManager {
 
+    //colour that we use in our chess
+
+    public static Color normalTileColour = new Color(68, 181, 211);
+    public static Color checkTileColour = new Color(200, 0, 50);
+    public static Color possibleTileColour = new Color(51, 204, 51);
+    public static Color specialPossibleTileColour = new Color(255, 0, 255);
+    public static Color selectedTileColour = new Color(4, 47, 102);
+
     Board board = Board.getCurrentBoard();
 
     public void addMoveToList(Move m) {
@@ -50,8 +58,10 @@ public class GameManager {
 
     public void colourSelected(int i, int j) {
         JButton button = MainPage.chessBoardSquares[i][j];
-        button.setBackground(new Color(4, 47, 102));
+        button.setBackground(selectedTileColour);
     }
+
+    //for En Passent and castling our colour would different from normal colour of possible move
 
     public void colourCastlingTile() {
         Piece piece = Game.game.get_selected_tile().getPiece();
@@ -84,12 +94,15 @@ public class GameManager {
             colourPossibleMoves(t.getX(), t.getY());
         }
         colourCastlingTile();
+        colourEnPassent();
     }
 
     public void colourPossibleMoves(int i, int j) {
         JButton button = MainPage.chessBoardSquares[i][j];
-        button.setBackground(new Color(51, 204, 51));
+        button.setBackground(possibleTileColour);
     }
+
+    //colours king tile when it's checked
 
     public void colourCheckedKing() {
         for (int i = 0; i < 8; i++) {
@@ -97,12 +110,31 @@ public class GameManager {
                 Tile tile = Board.getCurrentBoard().getTileFromCoordination(i, j);
                 if (tile.containsBlackKing() && Check.isBlackKingChecked()) {
                     JButton button = MainPage.chessBoardSquares[i][j];
-                    button.setBackground(new Color(200, 0, 50));
+                    button.setBackground(checkTileColour);
                 } else if (tile.containsWhiteKing() && Check.isWhiteKingChecked()) {
                     JButton button = MainPage.chessBoardSquares[i][j];
-                    button.setBackground(new Color(200, 0, 50));
+                    button.setBackground(checkTileColour);
                 }
             }
+        }
+    }
+
+    //for En Passent and castling our colour would different from normal colour of possible move
+
+    public void colourEnPassent() {
+        Tile tile = Game.game.get_selected_tile();
+        Tile t = null;
+        if (tile.getPiece() instanceof Pawn) {
+            for (Tile possibleTile : tile.getPossibleTiles()) {
+                if (Math.abs(possibleTile.getX() - tile.getX()) == 1 && possibleTile.getPiece() == null) {
+                    t = possibleTile;
+                }
+            }
+        }
+
+        if (t != null) {
+            JButton button = MainPage.chessBoardSquares[t.getX()][t.getY()];
+            button.setBackground(specialPossibleTileColour);
         }
     }
 
@@ -167,16 +199,8 @@ public class GameManager {
                 boolean EnPassent = false;
 
                 //checking for checkmate and checkStalemate
+
                 if (game.getTurn().equals(Colour.WHITE)) {
-                    MainPage.setMessage("White player moved, now it's Black's turn");
-                    if (m.hasEnPassant()) {
-                        EnPassent = true;
-                        MainPage.setMessage("En Passent just happened");
-                        if (!Game.game.getMuteness()) {
-                            killPiece.start();
-                        }
-                    }
-                } else {
                     MainPage.setMessage("Black player moved, now it's White's turn");
                     if (m.hasEnPassant()) {
                         EnPassent = true;
@@ -184,6 +208,22 @@ public class GameManager {
                         if (!Game.game.getMuteness()) {
                             killPiece.start();
                         }
+                    } else if (m.isCastling()) {
+                        EnPassent = true;
+                        MainPage.setMessage("Castling has just occurred");
+                    }
+                } else {
+                    MainPage.setMessage("White player moved, now it's Black's turn");
+                    if (m.hasEnPassant()) {
+                        EnPassent = true;
+                        MainPage.setMessage("En Passent just happened");
+                        if (!Game.game.getMuteness()) {
+                            killPiece.start();
+                        }
+                    } else if (m.isCastling()) {
+                        EnPassent = true;
+                        movePiece.start();
+                        MainPage.setMessage("Castling has just occurred");
                     }
                 }
 
@@ -193,19 +233,21 @@ public class GameManager {
                     }
                     game.setFinished();
                     MainPage.setMessage("White has won");
+                    game.win(Colour.WHITE);
                 } else if (Check.isWhiteCheckMate()) {
                     if (!Game.game.getMuteness()) {
                         checkMate.start();
                     }
                     game.setFinished();
                     MainPage.setMessage("Black has won");
+                    game.win(Colour.BLACK);
                 } else if (Check.checkStalemate()) {
                     if (!Game.game.getMuteness()) {
                         checkMate.start();
                     }
                     game.setFinished();
                     MainPage.setMessage("no one won, it's a draw");
-
+                    game.draw();
                 } else if (!Check.isBlackKingChecked() && !Check.isWhiteKingChecked()) {
                     if (m.getPieceKilled() == null) {
                         if (!Game.game.getMuteness() && !EnPassent) {
@@ -249,18 +291,21 @@ public class GameManager {
                         }
                         game.setFinished();
                         MainPage.setMessage("White has won");
+                        game.win(Colour.WHITE);
                     } else if (Check.isWhiteCheckMate()) {
                         if (!Game.game.getMuteness()) {
                             checkMate.start();
                         }
                         game.setFinished();
                         MainPage.setMessage("Black has won");
+                        game.win(Colour.BLACK);
                     } else if (Check.checkStalemate()) {
                         if (!Game.game.getMuteness()) {
                             checkMate.start();
                         }
                         game.setFinished();
                         MainPage.setMessage("no one won, it's a draw");
+                        game.draw();
                     } else if (Check.isBlackKingChecked() || Check.isWhiteKingChecked()) {
                         if (!Game.game.getMuteness()) {
                             check.start();
@@ -315,15 +360,18 @@ public class GameManager {
                 JButton button = MainPage.chessBoardSquares[i][j];
                 if (button.getBackground().getRed() != 68 && button.getBackground().getRed() != 240) {
                     if ((i + j) % 2 == 0) {
+
+                        //white colour
+
                         button.setBackground(new Color(240, 240, 240));
                     } else {
-                        button.setBackground(new Color(68, 181, 211));
+                        button.setBackground(normalTileColour);
                     }
                 }
                 if (board.getTileFromCoordination(i, j).containsWhiteKing() && Check.isWhiteKingChecked()) {
-                    button.setBackground(new Color(200, 0, 50));
+                    button.setBackground(checkTileColour);
                 } else if (board.getTileFromCoordination(i, j).containsBlackKing() && Check.isBlackKingChecked()) {
-                    button.setBackground(new Color(200, 0, 50));
+                    button.setBackground(checkTileColour);
                 }
             }
         }

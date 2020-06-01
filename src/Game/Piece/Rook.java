@@ -25,37 +25,4 @@ public class Rook extends Piece {
         }
     }
 
-    public static ArrayList<Tile> getNotCapturedBlackRooksTiles() {
-        ArrayList<Tile> arrayList = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Tile tile = Board.getCurrentBoard().getTileFromCoordination(i, j);
-                if (tile.getPiece() == null) {
-                    continue;
-                }
-                if (tile.getPiece() instanceof Rook && tile.getPiece().isBlack()) {
-                    arrayList.add(tile);
-                }
-            }
-        }
-        return arrayList;
-    }
-
-    public static ArrayList<Tile> getNotCapturedWhiteRooksTiles() {
-        ArrayList<Tile> arrayList = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Tile tile = Board.getCurrentBoard().getTileFromCoordination(i, j);
-                if (tile.getPiece() == null) {
-                    continue;
-                }
-                if (tile.getPiece() instanceof Rook && tile.getPiece().isWhite()) {
-                    arrayList.add(tile);
-                }
-            }
-        }
-        return arrayList;
-    }
-
-
 }

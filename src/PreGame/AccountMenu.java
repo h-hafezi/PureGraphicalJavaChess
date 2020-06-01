@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AccountMenu extends JFrame implements ActionListener {
-
+    private JSpinner numberOfMovesSpinner;
     private boolean mutenessBool = false;
     private Icon notMuteIcon = new ImageIcon("src/resources/Pictures/Webp.net-resizeimage (4).png");
     private Icon muteIcon = new ImageIcon("src/resources/Pictures/Webp.net-resizeimage (2).png");
@@ -73,14 +73,15 @@ public class AccountMenu extends JFrame implements ActionListener {
         numberOfMoves.setLocation(30, 130);
         c.add(numberOfMoves);
 
-        JSpinner s = new JSpinner(new SpinnerNumberModel(10, 1, 150, 1));
+        numberOfMovesSpinner = new JSpinner(new SpinnerNumberModel(10, 1, 150, 1));
 
         // set Bounds for spinner
 
-        s.setBounds(250, 130, 50, 25);
-        ((JSpinner.DefaultEditor) s.getEditor()).getTextField().setEditable(false);
-        c.add(s);
-        s.setVisible(true);
+        numberOfMovesSpinner.setBounds(250, 130, 50, 25);
+        ((JSpinner.DefaultEditor) numberOfMovesSpinner.getEditor()).getTextField().setEditable(false);
+        c.add(numberOfMovesSpinner);
+        numberOfMovesSpinner.setVisible(true);
+
 
         JLabel rival = new JLabel("your rival:");
         rival.setBackground(Color.black);
@@ -160,7 +161,7 @@ public class AccountMenu extends JFrame implements ActionListener {
         c.add(first);
 
         JLabel firstWinner = new JLabel();
-        firstWinner.setText(Person.getBestPlayers(sss.getValue().toString()).get(0).getUsername());
+        firstWinner.setText(Person.getBestPlayers().get(0).getUsername());
         firstWinner.setBackground(Color.black);
         firstWinner.setVisible(true);
         firstWinner.setForeground(Color.RED);
@@ -180,10 +181,10 @@ public class AccountMenu extends JFrame implements ActionListener {
         c.add(second);
 
         JLabel secondWinner = new JLabel();
-        if (Person.getBestPlayers(sss.getValue().toString()).size() <= 1) {
+        if (Person.getBestPlayers().size() <= 1) {
             secondWinner.setText("------");
         } else {
-            secondWinner.setText(Person.getBestPlayers(sss.getValue().toString()).get(1).getUsername());
+            secondWinner.setText(Person.getBestPlayers().get(1).getUsername());
         }
 
         secondWinner.setBackground(Color.black);
@@ -204,10 +205,10 @@ public class AccountMenu extends JFrame implements ActionListener {
         c.add(third);
 
         JLabel thirdWinner = new JLabel();
-        if (Person.getBestPlayers(sss.getValue().toString()).size() <= 2) {
+        if (Person.getBestPlayers().size() <= 2) {
             thirdWinner.setText("------");
         } else {
-            thirdWinner.setText(Person.getBestPlayers(sss.getValue().toString()).get(2).getUsername());
+            thirdWinner.setText(Person.getBestPlayers().get(2).getUsername());
         }
 
         thirdWinner.setBackground(Color.black);
@@ -271,7 +272,7 @@ public class AccountMenu extends JFrame implements ActionListener {
         } else if (e.getSource() == newGameButton) {
             this.setVisible(false);
             BackgroundMusic.backgroundMusic.stop();
-            new GameGUI.MainPage(new Game(1, null, null,5));
+            new GameGUI.MainPage(new Game(1, null, null, (Integer) numberOfMovesSpinner.getValue()));
         }
     }
 }

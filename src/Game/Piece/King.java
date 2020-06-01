@@ -46,6 +46,8 @@ public class King extends Piece {
         return null;
     }
 
+    //instead of keeping booleans in our object when we want to check whether it has been castled or checked we do with Move.getAllMoves()
+
     public static boolean hasBlackBeenCastled() {
         for (Move move : Move.getAllMoves()) {
             if (move.isCastling() && move.getPieceMoved().isBlack()) {
