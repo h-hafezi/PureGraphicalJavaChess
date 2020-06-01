@@ -59,6 +59,27 @@ public class MoveValidness {
     }
 
     private static boolean isMoveValidForKing(int fromX, int fromY, int toX, int toY) {
+
+        King king = (King) board.getTiles()[fromX][fromY].getPiece();
+
+        if (fromX == 4 && fromY == 0 && toX == 1 && toY == 0 && king.isBlack()) {
+            if (Castling.castlingForBlackKingLeft()) {
+                return true;
+            }
+        } else if (fromX == 4 && fromY == 0 && toX == 6 && toY == 0 && king.isBlack()) {
+            if (Castling.castlingForBlackKingRight()) {
+                return true;
+            }
+        } else if (fromX == 4 && fromY == 7 && toX == 6 && toY == 7 && king.isWhite()) {
+            if (Castling.castlingForWhiteKingRight()) {
+                return true;
+            }
+        } else if (fromX == 4 && fromY == 7 && toX == 1 && toY == 7 && king.isWhite()) {
+            if (Castling.castlingForWhiteKingLeft()) {
+                return true;
+            }
+        }
+
         return abs(fromX - toX) <= 1 && abs(fromY - toY) <= 1;
     }
 
@@ -161,18 +182,4 @@ public class MoveValidness {
         return false;
     }
 
-    public static boolean castlingForBlackKing() {
-        King king = King.getBlackKing();
-        assert king != null;
-        if (!king.hasBeenChecked() && !king.hasMoved()) {
-            for (Tile tile : Rook.getNotCapturedBlackRooksTiles()) {
-                if (!tile.getPiece().hasMoved()) {
-                    for (int i = min(4, tile.getX()) + 1; i < max(4, tile.getX()); i++) {
-
-                    }
-                }
-            }
-        }
-        return false;
-    }
 }

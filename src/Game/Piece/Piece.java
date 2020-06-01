@@ -1,6 +1,7 @@
 package Game.Piece;
 
 import Game.Colour;
+import Game.Move.Move;
 
 import javax.swing.*;
 
@@ -53,7 +54,12 @@ public abstract class Piece {
     }
 
     public boolean hasMoved() {
-        return hasMoved;
+        for (Move move : Move.getAllMoves()) {
+            if (move.getPieceMoved() == this) {
+                return true;
+            }
+        }
+        return this.hasMoved;
     }
 
     public void setHasMoved(boolean hasMoved) {

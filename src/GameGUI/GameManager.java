@@ -3,8 +3,11 @@ package GameGUI;
 import Game.Board.Board;
 import Game.Colour;
 import Game.Game;
+import Game.Move.Castling;
 import Game.Move.Check;
 import Game.Move.Move;
+import Game.Piece.King;
+import Game.Piece.Pawn;
 import Game.Piece.Piece;
 import Game.Tile.Tile;
 
@@ -30,11 +33,11 @@ public class GameManager {
         MainPage.demoList.addElement("");
     }
 
-    public void giveUp(){
-        Game game=Game.game;
+    public void giveUp() {
+        Game game = Game.game;
         game.giveUp();
         game.next_turn();
-        if(game.isBlackTurn()){
+        if (game.isBlackTurn()) {
             MainPage.setMessage("Black has won ");
         } else {
             MainPage.setMessage("White has won ");
@@ -50,6 +53,29 @@ public class GameManager {
         button.setBackground(new Color(4, 47, 102));
     }
 
+    public void colourCastlingTile() {
+        Piece piece = Game.game.get_selected_tile().getPiece();
+        if (piece instanceof King && piece.isWhite()) {
+            if (Castling.castlingForWhiteKingLeft()) {
+                JButton button = MainPage.chessBoardSquares[1][7];
+                button.setBackground(new Color(255, 0, 255));
+            }
+            if (Castling.castlingForWhiteKingRight()) {
+                JButton button = MainPage.chessBoardSquares[6][7];
+                button.setBackground(new Color(255, 0, 255));
+            }
+        } else if (piece instanceof King && piece.isBlack()) {
+            if (Castling.castlingForBlackKingLeft()) {
+                JButton button = MainPage.chessBoardSquares[1][0];
+                button.setBackground(new Color(255, 0, 255));
+            }
+            if (Castling.castlingForBlackKingRight()) {
+                JButton button = MainPage.chessBoardSquares[6][0];
+                button.setBackground(new Color(255, 0, 255));
+            }
+        }
+    }
+
     public void colourPossibleMoves(Tile tile) {
         for (Tile t : tile.getPossibleTiles()) {
             if (t == tile) {
@@ -57,6 +83,7 @@ public class GameManager {
             }
             colourPossibleMoves(t.getX(), t.getY());
         }
+        colourCastlingTile();
     }
 
     public void colourPossibleMoves(int i, int j) {
@@ -107,7 +134,6 @@ public class GameManager {
     public void select(int i, int j) {
 
         Game game = MainPage.getGame();
-        System.out.println(game.isAnyTileSelected());
         Tile tile = board.getTileFromCoordination(i, j);
 
         //I don't even know why i added this
@@ -131,7 +157,7 @@ public class GameManager {
 
             else if (game.get_selected_tile().getPossibleTiles().contains(board.getTileFromCoordination(i, j))) {
 
-                Move m = new Move(game.get_selected_tile(), tile);
+                Move m = new Move(game.get_selected_tile(), tile, true);
                 addMoveToList(m);
 
                 deselect();

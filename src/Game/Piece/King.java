@@ -2,12 +2,11 @@ package Game.Piece;
 
 import Game.Board.Board;
 import Game.Colour;
+import Game.Move.Move;
 
 import javax.swing.*;
 
 public class King extends Piece {
-    private boolean hasBeenChecked;
-    private boolean hasBeenCastled;
 
     public King(Colour colour) {
         super(colour);
@@ -47,20 +46,39 @@ public class King extends Piece {
         return null;
     }
 
-    public void setHasBeenCastled(boolean hasBeenCastled) {
-        this.hasBeenCastled = hasBeenCastled;
+    public static boolean hasBlackBeenCastled() {
+        for (Move move : Move.getAllMoves()) {
+            if (move.isCastling() && move.getPieceMoved().isBlack()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void setHasBeenChecked(boolean hasBeenChecked) {
-        this.hasBeenChecked = hasBeenChecked;
+    public static boolean hasWhiteBeenCastled() {
+        for (Move move : Move.getAllMoves()) {
+            if (move.isCastling() && move.getPieceMoved().isWhite()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public boolean hasBeenCastled() {
-        return hasBeenCastled;
+    public static boolean hasWhiteKingBeenChecked() {
+        for (Move move : Move.getAllMoves()) {
+            if (move.isWhiteKingCheck()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public boolean hasBeenChecked() {
-        return hasBeenChecked;
+    public static boolean hasBlackKingBeenChecked() {
+        for (Move move : Move.getAllMoves()) {
+            if (move.isBlackKingCheck()) {
+                return true;
+            }
+        }
+        return false;
     }
-
 }

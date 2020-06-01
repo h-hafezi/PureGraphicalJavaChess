@@ -18,6 +18,8 @@ public class Move {
     private Piece pieceKilled;
     private boolean isInvalid = false;
     private Castling castling = null;
+    private boolean blackKingCheck = false;
+    private boolean whiteKingCheck = false;
 
     public Move(Tile fromTile, Tile toTile) {
         this.pieceMoved = fromTile.getPiece();
@@ -30,10 +32,6 @@ public class Move {
             this.EnPassantPiece = getLastMove().getToTile().getPiece();
             this.EnPassantTile = getLastMove().getToTile();
             getLastMove().getToTile().setPiece(null);
-        }
-
-        if (pieceMoved instanceof King && Math.abs(fromTile.getX() - toTile.getX()) == 2) {
-            this.castling = new Castling(fromTile, toTile, this);
         }
 
         toTile.setPiece(fromTile.getPiece());
@@ -49,9 +47,53 @@ public class Move {
             }
         }
 
-        pieceMoved.setHasMoved(true);
         allMoves.add(this);
 
+        if (Check.isBlackKingChecked()) {
+            this.blackKingCheck = true;
+        } else if (Check.isWhiteKingChecked()) {
+            this.whiteKingCheck = true;
+        }
+    }
+
+    public Move(Tile fromTile, Tile toTile, boolean flg) {
+        this.pieceMoved = fromTile.getPiece();
+        this.fromTile = fromTile;
+        this.toTile = toTile;
+        this.pieceKilled = toTile.getPiece();
+
+        if ((pieceMoved instanceof Pawn) && toTile.getX() != fromTile.getX() && toTile.isEmpty()) {
+            EnPassantBool = true;
+            this.EnPassantPiece = getLastMove().getToTile().getPiece();
+            this.EnPassantTile = getLastMove().getToTile();
+            getLastMove().getToTile().setPiece(null);
+        }
+
+        if ((pieceMoved instanceof King) && (Math.abs(fromTile.getX() - toTile.getX()) >= 2)) {
+            this.castling = new Castling(this);
+            castling.moveCastle();
+        }
+
+        toTile.setPiece(fromTile.getPiece());
+        fromTile.setPiece(null);
+        Game.game.next_turn();
+        if (Game.game.isWhiteTurn()) {
+            if (Check.isBlackKingChecked()) {
+                isInvalid = true;
+            }
+        } else if (Game.game.isBlackTurn()) {
+            if (Check.isWhiteKingChecked()) {
+                isInvalid = true;
+            }
+        }
+
+        allMoves.add(this);
+
+        if (Check.isBlackKingChecked()) {
+            this.blackKingCheck = true;
+        } else if (Check.isWhiteKingChecked()) {
+            this.whiteKingCheck = true;
+        }
     }
 
     public Tile getFromTile() {
@@ -89,7 +131,7 @@ public class Move {
         return false;
     }
 
-    //we put has been transformed true for exceptional cases castlling etc, in fact it's a matter of precaution
+    //we put has been transformed true for exceptional cases castling etc, in fact it's a matter of precaution
 
     public void transform(String piece) {
         if (checkTransform()) {
@@ -130,4 +172,19 @@ public class Move {
         return isInvalid;
     }
 
+    public boolean isBlackKingCheck() {
+        return blackKingCheck;
+    }
+
+    public boolean isWhiteKingCheck() {
+        return whiteKingCheck;
+    }
+
+    public boolean isCastling() {
+        return castling != null;
+    }
+
+    public Castling getCastling() {
+        return castling;
+    }
 }

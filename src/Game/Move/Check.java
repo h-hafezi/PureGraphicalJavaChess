@@ -43,7 +43,6 @@ public class Check {
                 if (isValid(i, j, kingX, kingY, true)) {
                     King wk = King.getWhiteKing();
                     assert wk != null;
-                    wk.setHasBeenChecked(true);
                     return true;
                 }
             }
@@ -80,7 +79,6 @@ public class Check {
                 if (isValid(i, j, kingX, kingY, true)) {
                     King bk = King.getWhiteKing();
                     assert bk != null;
-                    bk.setHasBeenChecked(true);
                     return true;
                 }
             }
@@ -166,8 +164,59 @@ public class Check {
         return true;
     }
 
-    public static boolean checkTheCeiling() {
+    private static boolean checkTheCeiling() {
         return Game.game.ceilingOfMoves < Move.getAllMoves().size();
     }
 
+    public static boolean isTileCheckedByBlacks(int x, int y) {
+        /*int kingX = 0;
+        int kingY = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Tile tile = board.getTileFromCoordination(i, j);
+                if (tile.containsWhiteKing()) {
+                    kingX = i;
+                    kingY = j;
+                }
+            }
+        }
+
+        Board board = Board.getCurrentBoard();
+        new Move(board.getTileFromCoordination(kingX, kingY), board.getTiles()[x][y]);
+        if (isWhiteKingChecked()) {
+            Game.game.imaginaryUndo();
+            return true;
+        } else {
+            Game.game.imaginaryUndo();
+            return false;
+        }
+         */
+        return false;
+    }
+
+    public static boolean isTileCheckedByWhites(int x, int y) {
+        /*int kingX = 0;
+        int kingY = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Tile tile = board.getTileFromCoordination(i, j);
+                if (tile.containsBlackKing()) {
+                    kingX = i;
+                    kingY = j;
+                }
+            }
+        }
+
+        Board board = Board.getCurrentBoard();
+        new Move(board.getTileFromCoordination(kingX, kingY), board.getTiles()[x][y]);
+        if (isBlackKingChecked()) {
+            Game.game.imaginaryUndo();
+            return true;
+        } else {
+            Game.game.imaginaryUndo();
+            return false;
+        }
+         */
+        return false;
+    }
 }

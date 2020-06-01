@@ -72,8 +72,12 @@ public class Game {
                 if (move.hasEnPassant()) {
                     move.getEnPassantTile().setPiece(move.getEnPassantPiece());
                 }
-                move.getToTile().setPiece(move.getPieceKilled());
-                move.getFromTile().setPiece(move.getPieceMoved());
+                if (move.isCastling()) {
+                    move.getCastling().undo();
+                } else {
+                    move.getToTile().setPiece(move.getPieceKilled());
+                    move.getFromTile().setPiece(move.getPieceMoved());
+                }
                 selected_tile = null;
                 next_turn();
                 Move.getAllMoves().remove(Move.getAllMoves().size() - 1);
@@ -83,6 +87,7 @@ public class Game {
                 } else {
                     white_undo_left--;
                 }
+
                 return true;
             }
             return false;
