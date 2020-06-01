@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import javazoom.jl.player.Player;
 
 public class BackgroundMusic {
-    public static BackgroundMusic backgroundMusic = new BackgroundMusic("src\\resources\\Audio\\Perfect.mp3");
+    public static BackgroundMusic backgroundMusic = new BackgroundMusic("src\\resources\\Audio\\13. Jim Brickman - Little Star.mp3");
     public static BackgroundMusic selectPiece = new BackgroundMusic("src\\resources\\Audio\\1.mp3");
     public static BackgroundMusic badSelectPiece = new BackgroundMusic("src\\resources\\Audio\\1.mp3");
     public static BackgroundMusic movePiece = new BackgroundMusic("src\\resources\\Audio\\moveWithOutKill.mp3");

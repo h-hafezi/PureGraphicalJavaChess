@@ -95,7 +95,7 @@ public class Castling {
                 Rook rook = (Rook) piece1;
                 if (!rook.hasMoved()) {
                     for (int i = 1; i <= 3; i++) {
-                        if (!Check.isTileCheckedByBlacks(i, 0) || !Board.getCurrentBoard().getTiles()[i][7].isEmpty()) {
+                        if (Check.isTileCheckedByBlacks(i, 7) || !Board.getCurrentBoard().getTiles()[i][7].isEmpty()) {
                             return false;
                         }
                     }

@@ -23,7 +23,7 @@ public class GameManager {
     public static Color normalTileColour = new Color(68, 181, 211);
     public static Color checkTileColour = new Color(200, 0, 50);
     public static Color possibleTileColour = new Color(51, 204, 51);
-    public static Color specialPossibleTileColour = new Color(255, 0, 255);
+    public static Color specialPossibleTileColour = new Color(102, 0, 204);
     public static Color selectedTileColour = new Color(4, 47, 102);
 
     Board board = Board.getCurrentBoard();
