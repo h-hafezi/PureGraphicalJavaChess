@@ -7,7 +7,7 @@ import java.util.Comparator;
 public class Person implements Serializable {
     private static ArrayList<Person> allPeople = new ArrayList<>();
     private static Person personLoged;
-    private String password;
+    public String password;
     private String username;
     private int point;
 
@@ -96,4 +96,5 @@ public class Person implements Serializable {
     public void draw() {
         this.point++;
     }
+
 }

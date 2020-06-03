@@ -6,14 +6,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class AccountMenu extends JFrame implements ActionListener {
     private JSpinner numberOfMovesSpinner;
+    private JSpinner rivalSpinner;
     private boolean mutenessBool = false;
     private Icon notMuteIcon = new ImageIcon("src/resources/Pictures/Webp.net-resizeimage (4).png");
     private Icon muteIcon = new ImageIcon("src/resources/Pictures/Webp.net-resizeimage (2).png");
     private JButton muteness;
     private JButton newGameButton;
+    private JList colourList;
+    private JSpinner numberOfUndoSpinner;
 
     private JMenuItem logoutMenuItem;
     private JMenuItem changePasswordItem;
@@ -25,8 +29,10 @@ public class AccountMenu extends JFrame implements ActionListener {
         setContentPane(new JLabel(new ImageIcon("src/resources/Pictures/how-to-win-a-game-of-chess-in-two-moves.jpg")));
         setLayout(new FlowLayout());
 
+        BackgroundMusic.backgroundMusic.start();
+
         setTitle("chess game");
-        setBounds(300, 90, 900, 600);
+        setBounds(300, 90, 900, 630);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
 
@@ -93,14 +99,14 @@ public class AccountMenu extends JFrame implements ActionListener {
         c.add(rival);
 
 
-        JSpinner z = new JSpinner(new SpinnerListModel(Person.getAllUserName()));
+        rivalSpinner = new JSpinner(new SpinnerListModel(Person.getAllUserName()));
 
         // set Bounds for spinner
 
-        z.setBounds(250, 230, 50, 25);
-        ((JSpinner.DefaultEditor) z.getEditor()).getTextField().setEditable(false);
-        c.add(z);
-        z.setVisible(true);
+        rivalSpinner.setBounds(250, 230, 50, 25);
+        ((JSpinner.DefaultEditor) rivalSpinner.getEditor()).getTextField().setEditable(false);
+        c.add(rivalSpinner);
+        rivalSpinner.setVisible(true);
 
         JLabel color = new JLabel("your colour:");
         color.setBackground(Color.black);
@@ -112,11 +118,31 @@ public class AccountMenu extends JFrame implements ActionListener {
         c.add(color);
 
 
-        JSpinner zzz = new JSpinner(new SpinnerListModel(new String[]{"black", "white"}));
-        zzz.setBounds(246, 330, 60, 25);
-        ((JSpinner.DefaultEditor) zzz.getEditor()).getTextField().setEditable(false);
-        c.add(zzz);
-        zzz.setVisible(true);
+        DefaultListModel demoList = new DefaultListModel<>();
+        demoList.addElement("black");
+        demoList.addElement("white");
+        colourList = new JList<>(demoList);
+        colourList.setBounds(246, 330, 60, 36);
+        c.add(colourList);
+        colourList.setVisible(true);
+
+        JLabel numberOfUndo = new JLabel("number of undos:");
+        numberOfUndo.setBackground(Color.black);
+        numberOfUndo.setVisible(true);
+        numberOfUndo.setForeground(Color.RED);
+        numberOfUndo.setFont(new Font("Arial", Font.PLAIN, 20));
+        numberOfUndo.setSize(200, 20);
+        numberOfUndo.setLocation(30, 430);
+        c.add(numberOfUndo);
+
+        numberOfUndoSpinner = new JSpinner(new SpinnerNumberModel(3, 1, 10, 1));
+
+        // set Bounds for spinner
+
+        numberOfUndoSpinner.setBounds(250, 430, 50, 25);
+        ((JSpinner.DefaultEditor) numberOfUndoSpinner.getEditor()).getTextField().setEditable(false);
+        c.add(numberOfUndoSpinner);
+        numberOfUndoSpinner.setVisible(true);
 
 
         newGameButton = new JButton("start the game");
@@ -125,7 +151,7 @@ public class AccountMenu extends JFrame implements ActionListener {
         newGameButton.setBackground(Color.BLACK);
         newGameButton.setFont(new Font("Arial", Font.PLAIN, 25));
         newGameButton.setSize(250, 30);
-        newGameButton.setLocation(50, 430);
+        newGameButton.setLocation(50, 508);
         newGameButton.addActionListener(this);
         c.add(newGameButton);
 
@@ -137,19 +163,14 @@ public class AccountMenu extends JFrame implements ActionListener {
         topPeople.setLocation(550, 30);
         c.add(topPeople);
 
-        JLabel sortFactor = new JLabel("sort factor:");
+        JLabel sortFactor = new JLabel("these are the greatest three in the game");
         sortFactor.setBackground(Color.black);
         sortFactor.setVisible(true);
         sortFactor.setForeground(Color.RED);
         sortFactor.setFont(new Font("Arial", Font.PLAIN, 20));
-        sortFactor.setSize(200, 20);
+        sortFactor.setSize(400, 20);
         sortFactor.setLocation(450, 130);
         c.add(sortFactor);
-
-        JSpinner sss = new JSpinner(new SpinnerListModel(new String[]{"number of games", "number of wins", "number of point"}));
-        sss.setBounds(600, 130, 200, 25);
-        c.add(sss);
-        sss.setVisible(true);
 
         JLabel first = new JLabel("first:");
         first.setBackground(Color.black);
@@ -219,30 +240,28 @@ public class AccountMenu extends JFrame implements ActionListener {
         thirdWinner.setLocation(550, 430);
         c.add(thirdWinner);
 
-        JButton t = new JButton("start the game");
-        t.setVisible(true);
-        t.setForeground(Color.yellow);
-        t.setBackground(Color.BLACK);
-        t.setFont(new Font("Arial", Font.PLAIN, 25));
-        t.setSize(250, 30);
-        t.setLocation(50, 430);
-        c.add(t);
-
         muteness = new JButton(notMuteIcon);
         muteness.setVisible(true);
         muteness.setSize(44, 44);
-        muteness.setLocation(820, 480);
+        muteness.setLocation(820, 500);
         muteness.addActionListener(this);
         c.add(muteness);
+
     }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == changePasswordItem) {
             String new_password = JOptionPane.showInputDialog(this, "enter your new password");
             if (new_password != null) {
-                Person.changePassWord(new_password);
-                System.out.println(Person.getPersonLoged().getUsername());
-                System.out.println("---" + new_password + "---");
+                StringBuilder s = new StringBuilder("[");
+                for (int i = 0; i < new_password.length(); i++) {
+                    if (i != new_password.length() - 1)
+                        s.append(new_password.charAt(i)).append(", ");
+                    else
+                        s.append(new_password.charAt(i)).append("]");
+                }
+                System.out.println(s.toString());
+                Person.changePassWord(s.toString());
             }
         } else if (e.getSource() == deleteAccountItem) {
             int a = JOptionPane.showConfirmDialog(this, "Are you sure to want to delete your account?");
@@ -269,10 +288,24 @@ public class AccountMenu extends JFrame implements ActionListener {
                 BackgroundMusic.backgroundMusic.stop();
             }
             mutenessBool = !mutenessBool;
-        } else if (e.getSource() == newGameButton) {
-            this.setVisible(false);
-            BackgroundMusic.backgroundMusic.stop();
-            new GameGUI.MainPage(new Game(1, null, null, (Integer) numberOfMovesSpinner.getValue()));
         }
+
+        //starting a new game
+
+        else if (e.getSource() == newGameButton) {
+            if (colourList.getSelectedValue() == null) {
+                JOptionPane.showMessageDialog(this, "please select a colour", "Alert", JOptionPane.WARNING_MESSAGE);
+            } else if (colourList.getSelectedValue() == "black") {
+                this.setVisible(false);
+                BackgroundMusic.backgroundMusic.stop();
+                new GameGUI.MainPage(new Game((Integer) numberOfUndoSpinner.getValue(), (String) rivalSpinner.getValue(), Person.getPersonLoged().getUsername(), (Integer) numberOfMovesSpinner.getValue()));
+            } else if (colourList.getSelectedValue() == "white") {
+                new GameGUI.MainPage(new Game((Integer) numberOfUndoSpinner.getValue(), Person.getPersonLoged().getUsername(), (String) rivalSpinner.getValue(), (Integer) numberOfMovesSpinner.getValue()));
+                this.setVisible(false);
+                BackgroundMusic.backgroundMusic.stop();
+            }
+        }
+
     }
+
 }

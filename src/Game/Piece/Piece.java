@@ -53,6 +53,29 @@ public abstract class Piece {
         return string;
     }
 
+    public String toStringShortFormatted(){
+        String string = "";
+        if (this.isWhite()) {
+            string += "W";
+        } else {
+            string += "B";
+        }
+        if (this instanceof King) {
+            string += "K";
+        } else if (this instanceof Bishop) {
+            string += "B";
+        } else if (this instanceof Knight) {
+            string += "K";
+        } else if (this instanceof Pawn) {
+            string += "P";
+        } else if (this instanceof Queen) {
+            string += "Q";
+        } else if (this instanceof Rook) {
+            string += "R";
+        }
+        return string;
+    }
+
     public boolean hasMoved() {
         for (Move move : Move.getAllMoves()) {
             if (move.getPieceMoved() == this) {

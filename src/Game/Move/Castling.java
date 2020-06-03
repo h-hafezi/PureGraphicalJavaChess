@@ -207,28 +207,28 @@ public class Castling {
 
     //when move is a type of Castling then, we undo it with this method rather than the normal method
 
-    public void undo(){
-        Board board=Board.getCurrentBoard();
-        if(this.castlingType.equals(CastlingType.WHITE_LEFT)){
-            Rook rook= (Rook) board.getTiles()[2][7].getPiece();
+    public void undo() {
+        Board board = Board.getCurrentBoard();
+        if (this.castlingType.equals(CastlingType.WHITE_LEFT)) {
+            Rook rook = (Rook) board.getTiles()[2][7].getPiece();
             board.getTiles()[4][7].setPiece(King.getWhiteKing());
             board.getTiles()[0][7].setPiece(rook);
             board.getTiles()[1][7].setPiece(null);
             board.getTiles()[2][7].setPiece(null);
-        } else if (this.castlingType.equals(CastlingType.WHITE_RIGHT)){
-            Rook rook= (Rook) board.getTiles()[5][7].getPiece();
+        } else if (this.castlingType.equals(CastlingType.WHITE_RIGHT)) {
+            Rook rook = (Rook) board.getTiles()[5][7].getPiece();
             board.getTiles()[4][7].setPiece(King.getWhiteKing());
             board.getTiles()[7][7].setPiece(rook);
             board.getTiles()[6][7].setPiece(null);
             board.getTiles()[5][7].setPiece(null);
-        } else if (this.castlingType.equals(CastlingType.BLACK_LEFT)){
-            Rook rook= (Rook) board.getTiles()[2][0].getPiece();
+        } else if (this.castlingType.equals(CastlingType.BLACK_LEFT)) {
+            Rook rook = (Rook) board.getTiles()[2][0].getPiece();
             board.getTiles()[4][0].setPiece(King.getBlackKing());
             board.getTiles()[0][0].setPiece(rook);
             board.getTiles()[1][0].setPiece(null);
             board.getTiles()[2][0].setPiece(null);
-        } else if (this.castlingType.equals(CastlingType.BLACK_RIGHT)){
-            Rook rook= (Rook) board.getTiles()[5][0].getPiece();
+        } else if (this.castlingType.equals(CastlingType.BLACK_RIGHT)) {
+            Rook rook = (Rook) board.getTiles()[5][0].getPiece();
             board.getTiles()[4][0].setPiece(King.getWhiteKing());
             board.getTiles()[7][0].setPiece(rook);
             board.getTiles()[6][0].setPiece(null);

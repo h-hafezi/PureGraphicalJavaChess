@@ -2,10 +2,13 @@ package GameGUI;
 
 import Game.Move.Move;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class MainPage extends JFrame implements ActionListener {
     static DefaultListModel<String> demoList;
@@ -160,13 +163,14 @@ public class MainPage extends JFrame implements ActionListener {
         //adding the Jlist in order to show the moves
 
         demoList = new DefaultListModel<>();
-        demoList.addElement("  double click on move to undo");
+        demoList.addElement("          double click on move to undo");
         demoList.addElement("  ");
         JList<String> list = new JList<>(demoList);
 
         //adding action listener the list so when the move is double clicked, then it will be undone
 
         MouseListener mouseListener = new MouseAdapter() {
+
             public void mouseClicked(MouseEvent e) {
 
                 //when it's double clicked
@@ -177,10 +181,18 @@ public class MainPage extends JFrame implements ActionListener {
 
                     int a = JOptionPane.showConfirmDialog(MainPage.this, "are you sure to want to undo to this move?");
                     if (a == JOptionPane.YES_OPTION) {
+
+                        if(game.getUndoTurn()<=0){
+                            setMessage("you're out of undo");
+                            return;
+                        }
+
+                        game.reduce_undo();
+
                         game.undo(Move.getAllMoves().size() + 2 - list.getSelectedIndex());
                         GameManager gameManager = new GameManager();
                         demoList.removeAllElements();
-                        demoList.addElement("  double click on move to undo");
+                        demoList.addElement("          double click on move to undo");
                         demoList.addElement("  ");
                         int i = 0;
                         for (Move m : Move.getAllMoves()) {
@@ -206,7 +218,7 @@ public class MainPage extends JFrame implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(list);
         scrollPane.setOpaque(true);
         scrollPane.setBackground(backGroundColour);
-        scrollPane.setPreferredSize(new Dimension(200, 300));
+        scrollPane.setPreferredSize(new Dimension(250, 300));
         scrollPane.setBounds(0, 0, 250, 400);
 
         move.add(scrollPane, gbc);
@@ -238,6 +250,7 @@ public class MainPage extends JFrame implements ActionListener {
         resetGame.addActionListener(e -> {
             int a = JOptionPane.showConfirmDialog(MainPage.this, "are you sure to want to reset?");
             if (a == JOptionPane.YES_OPTION) {
+
                 game.undo(Move.getAllMoves().size());
                 demoList.removeAllElements();
                 demoList.addElement("  double click on move to undo");
@@ -251,6 +264,14 @@ public class MainPage extends JFrame implements ActionListener {
         });
 
         undo.addActionListener(e -> {
+
+            if(game.getUndoTurn()<=0){
+                setMessage("you're out of undo");
+                return;
+            }
+
+            game.reduce_undo();
+
             if (game.undo()) {
                 setMessage("undo successfully, now it's again " + game.getTurn().toString() + " turn");
                 demoList.removeAllElements();
@@ -313,7 +334,7 @@ public class MainPage extends JFrame implements ActionListener {
         total.add(move);
     }
 
-    public MainPage(Game.Game game) {
+    public MainPage(Game.Game game)  {
 
         //setting image and icon of J frame
 
@@ -346,6 +367,7 @@ public class MainPage extends JFrame implements ActionListener {
         }
 
         message.setFont(new Font("Arial", Font.PLAIN, 30));
+
     }
 
     public static Game.Game getGame() {

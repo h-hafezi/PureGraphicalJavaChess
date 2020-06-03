@@ -148,6 +148,22 @@ public class Game {
         this.isFinished = true;
     }
 
+    public int getUndoTurn() {
+        if (isWhiteTurn()) {
+            return white_undo_left;
+        } else {
+            return black_undo_left;
+        }
+    }
+
+    public void reduce_undo() {
+        if (isWhiteTurn()) {
+            white_undo_left--;
+        } else {
+            black_undo_left--;
+        }
+    }
+
     public void win(Colour colour) {
         if (colour.equals(Colour.WHITE)) {
             Person.getPersonWithUsername(white_username).win();
@@ -168,8 +184,5 @@ public class Game {
         muteness = false;
         selected_tile = null;
     }
-
-
-
 
 }

@@ -289,6 +289,7 @@ public class LoginMenu extends JFrame implements ActionListener {
                 m.setVisible(true);
                 setVisible(false);
                 Person.login(LoginUsernameField.getText(), Arrays.toString(LoginPasswordField.getPassword()));
+                BackgroundMusic.backgroundMusic.stop();
             }
 
         }
@@ -305,6 +306,7 @@ public class LoginMenu extends JFrame implements ActionListener {
             }
             mutenessBool = !mutenessBool;
         }
+
     }
 
     void getRegisterMenu() {

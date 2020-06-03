@@ -35,10 +35,8 @@ public class GameManager {
         } else {
             string += Move.getAllMoves().size() + " - ";
         }
-        string += m.getPieceMoved().toString() + " from ";
-        string += m.getFromTile().toString() + " to " + m.getToTile().toString();
+        string += m.toString();
         MainPage.demoList.addElement(string);
-        MainPage.demoList.addElement("");
     }
 
     public void giveUp() {
@@ -68,20 +66,20 @@ public class GameManager {
         if (piece instanceof King && piece.isWhite()) {
             if (Castling.castlingForWhiteKingLeft()) {
                 JButton button = MainPage.chessBoardSquares[1][7];
-                button.setBackground(new Color(255, 0, 255));
+                button.setBackground(specialPossibleTileColour);
             }
             if (Castling.castlingForWhiteKingRight()) {
                 JButton button = MainPage.chessBoardSquares[6][7];
-                button.setBackground(new Color(255, 0, 255));
+                button.setBackground(specialPossibleTileColour);
             }
         } else if (piece instanceof King && piece.isBlack()) {
             if (Castling.castlingForBlackKingLeft()) {
                 JButton button = MainPage.chessBoardSquares[1][0];
-                button.setBackground(new Color(255, 0, 255));
+                button.setBackground(specialPossibleTileColour);
             }
             if (Castling.castlingForBlackKingRight()) {
                 JButton button = MainPage.chessBoardSquares[6][0];
-                button.setBackground(new Color(255, 0, 255));
+                button.setBackground(specialPossibleTileColour);
             }
         }
     }

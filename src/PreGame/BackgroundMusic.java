@@ -17,6 +17,7 @@ public class BackgroundMusic {
     private String filename;
     private static Player player;
     Thread playMusic;
+    Thread background;
 
     public BackgroundMusic(String filename) {
         this.filename = filename;
@@ -34,9 +35,15 @@ public class BackgroundMusic {
     }
 
     public void start() {
-        play();
-        playMusic = new Thread(new PlayMusic());
-        playMusic.start();
+        if (this == backgroundMusic) {
+            play();
+            background = new Thread(new backgroundMusicThread());
+            background.start();
+        } else {
+            play();
+            playMusic = new Thread(new PlayMusic());
+            playMusic.start();
+        }
     }
 
     public void stop() {
@@ -60,5 +67,18 @@ public class BackgroundMusic {
             }
         }
     }
+
+    static class backgroundMusicThread implements Runnable {
+
+        public void run() {
+            try {
+                player.play();
+                Thread.sleep(1000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }

@@ -121,7 +121,17 @@ public class Move {
     }
 
     public String toString() {
-        return pieceMoved.toString() + " from " + fromTile.toString() + " to " + toTile.toString();
+        String string = pieceMoved.toString() + " from " + fromTile.toString() + " to " + toTile.toString();
+        if (this.getPieceKilled() != null) {
+            string += ", killed " + getPieceKilled().toStringShortFormatted();
+            return string;
+        } else if (this.isCastling()) {
+            return string + ", castling";
+        } else if (this.hasEnPassant()) {
+            return string + ", EnPassent";
+        } else {
+            return string + ", no killing";
+        }
     }
 
     public boolean checkTransform() {

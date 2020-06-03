@@ -76,7 +76,6 @@ public class MoveValidness {
                 return true;
             }
         } else if (fromX == 4 && fromY == 7 && toX == 1 && toY == 7 && king.isWhite()) {
-            System.out.println("wow we reached here");
             if (Castling.castlingForWhiteKingLeft()) {
                 return true;
             }
