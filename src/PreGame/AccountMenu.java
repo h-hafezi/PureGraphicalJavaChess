@@ -303,6 +303,7 @@ public class AccountMenu extends JFrame implements ActionListener {
                 new GameGUI.MainPage(new Game((Integer) numberOfUndoSpinner.getValue(), Person.getPersonLoged().getUsername(), (String) rivalSpinner.getValue(), (Integer) numberOfMovesSpinner.getValue()));
                 this.setVisible(false);
                 BackgroundMusic.backgroundMusic.stop();
+
             }
         }
 

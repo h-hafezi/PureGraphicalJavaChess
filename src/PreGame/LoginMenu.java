@@ -285,11 +285,11 @@ public class LoginMenu extends JFrame implements ActionListener {
             } else if (!Person.login(LoginUsernameField.getText(), Arrays.toString(LoginPasswordField.getPassword()))) {
                 JOptionPane.showMessageDialog(this, "wrong password", "Alert", JOptionPane.INFORMATION_MESSAGE);
             } else {
+                BackgroundMusic.backgroundMusic.stop();
                 AccountMenu m = new AccountMenu();
                 m.setVisible(true);
                 setVisible(false);
                 Person.login(LoginUsernameField.getText(), Arrays.toString(LoginPasswordField.getPassword()));
-                BackgroundMusic.backgroundMusic.stop();
             }
 
         }
