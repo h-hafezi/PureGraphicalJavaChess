@@ -28,7 +28,6 @@ public class Castling {
         }
     }
 
-
     //for black king we should check the two coordination (0,0) and (7,0)
 
     public static boolean castlingForBlackKingLeft() {
@@ -202,7 +201,6 @@ public class Castling {
             Board.getCurrentBoard().getTiles()[7][7].setPiece(null);
             Board.getCurrentBoard().getTiles()[5][7].setPiece(piece);
         }
-
     }
 
     //when move is a type of Castling then, we undo it with this method rather than the normal method

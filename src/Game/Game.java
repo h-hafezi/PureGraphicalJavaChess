@@ -3,8 +3,6 @@ package Game;
 import Game.Board.Board;
 import Game.Move.Move;
 import Game.Tile.Tile;
-import PreGame.AccountMenu;
-import PreGame.Person;
 
 public class Game {
     public static Game game;
@@ -16,29 +14,13 @@ public class Game {
     private int time;
     public int white_left_time;
     public int black_left_time;
-    private int white_undo_left;
-    private int black_undo_left;
-    private String white_username;
-    private String black_username;
-    private int initial_undo_number;
     private boolean usingClock = false;
-    public int ceilingOfMoves;
 
-    public Game(int number_of_undo, String white_username, String black_username, int ceilingOfMoves) {
+    public Game() {
         new Board(true);
-        this.white_username = white_username;
-        this.black_username = black_username;
-        this.black_undo_left = number_of_undo;
-        this.white_undo_left = number_of_undo;
-        this.initial_undo_number = number_of_undo;
         selected_tile = null;
         this.turn = Colour.WHITE;
         game = this;
-        if (ceilingOfMoves <= 0) {
-            this.ceilingOfMoves = Integer.MAX_VALUE;
-        } else {
-            this.ceilingOfMoves = ceilingOfMoves;
-        }
     }
 
     public void next_turn() {
@@ -87,12 +69,6 @@ public class Game {
                 next_turn();
                 Move.getAllMoves().remove(Move.getAllMoves().size() - 1);
 
-                if (isBlackTurn()) {
-                    black_undo_left--;
-                } else {
-                    white_undo_left--;
-                }
-
                 return true;
             }
             return false;
@@ -132,8 +108,6 @@ public class Game {
         muteness = false;
         selected_tile = null;
         turn = Colour.WHITE;
-        white_undo_left = initial_undo_number;
-        black_undo_left = initial_undo_number;
     }
 
     public boolean isBlackTurn() {
@@ -150,37 +124,6 @@ public class Game {
 
     public void setFinished() {
         this.isFinished = true;
-    }
-
-    public int getUndoTurn() {
-        if (isWhiteTurn()) {
-            return white_undo_left;
-        } else {
-            return black_undo_left;
-        }
-    }
-
-    public void reduce_undo() {
-        if (isWhiteTurn()) {
-            white_undo_left--;
-        } else {
-            black_undo_left--;
-        }
-    }
-
-    public void win(Colour colour) {
-        if (colour.equals(Colour.WHITE)) {
-            Person.getPersonWithUsername(white_username).win();
-            Person.getPersonWithUsername(black_username).lose();
-        } else {
-            Person.getPersonWithUsername(white_username).lose();
-            Person.getPersonWithUsername(black_username).win();
-        }
-    }
-
-    public void draw() {
-        Person.getPersonWithUsername(white_username).draw();
-        Person.getPersonWithUsername(black_username).draw();
     }
 
     public void giveUp() {

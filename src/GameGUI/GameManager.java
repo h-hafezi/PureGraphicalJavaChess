@@ -49,7 +49,6 @@ public class GameManager {
             MainPage.setMessage("White has won ");
         }
         deselect();
-        game.win(game.getTurn());
         game.setFinished();
         updateBoard();
     }
@@ -162,6 +161,7 @@ public class GameManager {
     }
 
     public void select(int i, int j) {
+
         Game game = Game.game;
         Tile tile = board.getTileFromCoordination(i, j);
 
@@ -229,21 +229,18 @@ public class GameManager {
                     }
                     game.setFinished();
                     MainPage.setMessage("White has won");
-                    game.win(Colour.WHITE);
                 } else if (Check.isWhiteCheckMate()) {
                     if (!Game.game.getMuteness()) {
                         checkMate.start();
                     }
                     game.setFinished();
                     MainPage.setMessage("Black has won");
-                    game.win(Colour.BLACK);
                 } else if (Check.checkStalemate()) {
                     if (!Game.game.getMuteness()) {
                         checkMate.start();
                     }
                     game.setFinished();
                     MainPage.setMessage("no one won, it's a draw");
-                    game.draw();
                 } else if (!Check.isBlackKingChecked() && !Check.isWhiteKingChecked()) {
                     if (m.getPieceKilled() == null) {
                         if (!Game.game.getMuteness() && !EnPassent) {
@@ -287,21 +284,18 @@ public class GameManager {
                         }
                         game.setFinished();
                         MainPage.setMessage("White has won");
-                        game.win(Colour.WHITE);
                     } else if (Check.isWhiteCheckMate()) {
                         if (!Game.game.getMuteness()) {
                             checkMate.start();
                         }
                         game.setFinished();
                         MainPage.setMessage("Black has won");
-                        game.win(Colour.BLACK);
                     } else if (Check.checkStalemate()) {
                         if (!Game.game.getMuteness()) {
                             checkMate.start();
                         }
                         game.setFinished();
                         MainPage.setMessage("no one won, it's a draw");
-                        game.draw();
                     } else if (Check.isBlackKingChecked() || Check.isWhiteKingChecked()) {
                         if (!Game.game.getMuteness()) {
                             check.start();

@@ -1,7 +1,6 @@
 package GameGUI;
 
 import Game.Move.Move;
-import PreGame.AccountMenu;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -188,13 +187,6 @@ public class MainPage extends JFrame implements ActionListener {
                     int a = JOptionPane.showConfirmDialog(MainPage.this, "are you sure to want to undo to this move?");
                     if (a == JOptionPane.YES_OPTION) {
 
-                        if (game.getUndoTurn() <= 0) {
-                            setMessage("you're out of undo");
-                            return;
-                        }
-
-                        game.reduce_undo();
-
                         game.undo(Move.getAllMoves().size() + 2 - list.getSelectedIndex());
                         GameManager gameManager = new GameManager();
                         demoList.removeAllElements();
@@ -247,13 +239,11 @@ public class MainPage extends JFrame implements ActionListener {
         JMenuItem undo = new JMenuItem(" undo ");
         JMenuItem giveUp = new JMenuItem(" give up ");
         JMenuItem exit = new JMenuItem(" exit ");
-        JMenuItem gameMenu = new JMenuItem(" game menu ");
         JMenuItem clock = new JMenuItem("       use a clock       ");
 
         menu.add(resetGame);
         menu.add(undo);
         menu.add(giveUp);
-        menu.add(gameMenu);
         muteMenu.add(mute);
         menu.add(exit);
         clockMenu.add(clock);
@@ -282,17 +272,10 @@ public class MainPage extends JFrame implements ActionListener {
 
         undo.addActionListener(e -> {
 
-            if (game.getUndoTurn() <= 0) {
-                setMessage("you're out of undo");
-                return;
-            }
-
             if (game.isUsingClock()) {
                 setMessage("you cannot undo while playing with clock");
                 return;
             }
-
-            game.reduce_undo();
 
             if (game.undo()) {
                 setMessage("undo successfully, now it's again " + game.getTurn().toString() + " turn");
@@ -369,25 +352,6 @@ public class MainPage extends JFrame implements ActionListener {
                 gameManager.updateButtons();
             }
             game.setUsingClock(!game.isUsingClock());
-        });
-
-        gameMenu.addActionListener(e -> {
-            game.resetTheGame();
-            if (game.isUsingClock()) {
-                game.setTime(game.getTime());
-            }
-
-            game.undo(Move.getAllMoves().size());
-            demoList.removeAllElements();
-            demoList.addElement("  double click on move to undo");
-            demoList.addElement("  ");
-            int i = 0;
-            message.setText("          start again");
-            gameManager.updateBoard();
-            gameManager.deselect();
-            AccountMenu.accountMenu.setVisible(true);
-            MainPage.mainPage.setVisible(false);
-
         });
 
         menuBar.add(menu);

@@ -6,7 +6,6 @@ import Game.Piece.King;
 import Game.Piece.Piece;
 import Game.Tile.Tile;
 
-
 import java.util.ArrayList;
 
 import static Game.Move.MoveValidness.*;
@@ -121,10 +120,6 @@ public class Check {
     public static boolean checkStalemate() {
         Game game = Game.game;
 
-        if (checkTheCeiling()) {
-            return true;
-        }
-
         ArrayList<Tile> arrayList = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
@@ -164,10 +159,6 @@ public class Check {
         }
 
         return true;
-    }
-
-    private static boolean checkTheCeiling() {
-        return Game.game.ceilingOfMoves < Move.getAllMoves().size();
     }
 
     //two methods below are used for castling to make sure that castling is all right and tile between rook and king aren't checked
