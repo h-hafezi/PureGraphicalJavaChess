@@ -3,6 +3,7 @@ package Game;
 import Game.Board.Board;
 import Game.Move.Move;
 import Game.Tile.Tile;
+import PreGame.AccountMenu;
 import PreGame.Person;
 
 public class Game {
@@ -12,12 +13,15 @@ public class Game {
     private boolean muteness = false;
     private Tile selected_tile;
     private Colour turn;
+    private int time;
+    public int white_left_time;
+    public int black_left_time;
     private int white_undo_left;
     private int black_undo_left;
     private String white_username;
     private String black_username;
     private int initial_undo_number;
-
+    private boolean usingClock = false;
     public int ceilingOfMoves;
 
     public Game(int number_of_undo, String white_username, String black_username, int ceilingOfMoves) {
@@ -183,6 +187,24 @@ public class Game {
         isFinished = true;
         muteness = false;
         selected_tile = null;
+    }
+
+    public void setUsingClock(boolean usingClock) {
+        this.usingClock = usingClock;
+    }
+
+    public boolean isUsingClock() {
+        return usingClock;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+        this.black_left_time = time;
+        this.white_left_time = time;
+    }
+
+    public int getTime() {
+        return time;
     }
 
 }

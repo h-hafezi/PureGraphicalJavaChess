@@ -53,6 +53,8 @@ public abstract class Piece {
         return string;
     }
 
+
+
     public String toStringShortFormatted(){
         String string = "";
         if (this.isWhite()) {

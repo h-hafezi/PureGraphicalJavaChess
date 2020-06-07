@@ -1,6 +1,7 @@
 package PreGame;
 
 import Game.Game;
+import GameGUI.MainPage;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +24,7 @@ public class AccountMenu extends JFrame implements ActionListener {
     private JMenuItem changePasswordItem;
     private JMenuItem deleteAccountItem;
     private JMenuItem exitItem;
+    public static AccountMenu accountMenu;
 
     public AccountMenu() {
         setLayout(new BorderLayout());
@@ -38,6 +40,8 @@ public class AccountMenu extends JFrame implements ActionListener {
 
         Container c = getContentPane();
         c.setLayout(null);
+
+        AccountMenu.accountMenu = this;
 
         ImageIcon img = new ImageIcon("src/resources/Pictures/chess_piece_king.png");
         this.setIconImage(img.getImage());
@@ -298,15 +302,24 @@ public class AccountMenu extends JFrame implements ActionListener {
             } else if (colourList.getSelectedValue() == "black") {
                 this.setVisible(false);
                 BackgroundMusic.backgroundMusic.stop();
-                new GameGUI.MainPage(new Game((Integer) numberOfUndoSpinner.getValue(), (String) rivalSpinner.getValue(), Person.getPersonLoged().getUsername(), (Integer) numberOfMovesSpinner.getValue()));
+                if (MainPage.mainPage == null) {
+                    new GameGUI.MainPage(new Game((Integer) numberOfUndoSpinner.getValue(), (String) rivalSpinner.getValue(),
+                            Person.getPersonLoged().getUsername(), (Integer) numberOfMovesSpinner.getValue()));
+                } else {
+                    MainPage.mainPage.setVisible(true);
+                }
             } else if (colourList.getSelectedValue() == "white") {
-                new GameGUI.MainPage(new Game((Integer) numberOfUndoSpinner.getValue(), Person.getPersonLoged().getUsername(), (String) rivalSpinner.getValue(), (Integer) numberOfMovesSpinner.getValue()));
+                if (MainPage.mainPage == null) {
+                    new GameGUI.MainPage(new Game((Integer) numberOfUndoSpinner.getValue(), Person.getPersonLoged().getUsername(),
+                            (String) rivalSpinner.getValue(), (Integer) numberOfMovesSpinner.getValue()));
+                } else {
+                    MainPage.mainPage.setVisible(true);
+                }
                 this.setVisible(false);
                 BackgroundMusic.backgroundMusic.stop();
 
             }
         }
-
     }
 
 }

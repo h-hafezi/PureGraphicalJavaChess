@@ -128,7 +128,7 @@ public class Move {
         } else if (this.isCastling()) {
             return string + ", castling";
         } else if (this.hasEnPassant()) {
-            return string + ", EnPassent";
+            return string + ", enpassent";
         } else {
             return string + ", no killing";
         }

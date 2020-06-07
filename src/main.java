@@ -8,6 +8,6 @@ public class main {
     public static void main(String[] args) throws IOException {
         new LoginMenu();
 
-        //new GameGUI.MainPage(new Game(1, null, null,100));
+        //new GameGUI.MainPage(new Game(100, null, null,1000));
     }
 }

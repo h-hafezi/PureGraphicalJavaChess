@@ -33,7 +33,7 @@ public class GameManager {
         if (Move.getAllMoves().size() <= 9) {
             string += " " + Move.getAllMoves().size() + " - ";
         } else {
-            string += Move.getAllMoves().size() + " - ";
+            string += Move.getAllMoves().size() + "- ";
         }
         string += m.toString();
         MainPage.demoList.addElement(string);
@@ -162,8 +162,7 @@ public class GameManager {
     }
 
     public void select(int i, int j) {
-
-        Game game = MainPage.getGame();
+        Game game = Game.game;
         Tile tile = board.getTileFromCoordination(i, j);
 
         //I don't even know why i added this
@@ -174,8 +173,7 @@ public class GameManager {
 
         //first we check the cases where a piece is already selected
 
-        if (game.isAnyTileSelected()) {
-
+        if (Game.game.isAnyTileSelected()) {
             //if one a piece of same colour is clicked we would deselect
 
             if (tile.getPiece() != null && tile.getPieceColour().equals(game.getTurn())) {
@@ -352,7 +350,7 @@ public class GameManager {
     //and the exception is the checked king that has to stay the same
 
     public void deselect() {
-        Game game = MainPage.getGame();
+        Game game = Game.game;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 JButton button = MainPage.chessBoardSquares[i][j];
@@ -374,6 +372,64 @@ public class GameManager {
             }
         }
         game.deselect();
+    }
+
+    //update clock buttons
+
+    public void updateButtons() {
+
+        MainPage.blackTime = "\n" + "---------black--------" + "\n" + "\n" + "       ";
+
+        if (Game.game.white_left_time / 60000 <= 9) {
+            MainPage.blackTime += "0" + Game.game.white_left_time / 60000 + ":";
+        } else {
+            MainPage.blackTime += Game.game.white_left_time / 60000 + ":";
+        }
+
+        if ((((Game.game.black_left_time) % 60000) / 1000) <= 9) {
+            MainPage.blackTime += "0" + ((Game.game.black_left_time) % 60000) / 1000 + ":";
+        } else {
+            MainPage.blackTime += ((Game.game.black_left_time) % 60000) / 1000 + ":";
+        }
+
+        if (((Game.game.black_left_time % 1000) / 10) <= 9) {
+            MainPage.blackTime += "0" + (Game.game.black_left_time % 1000) / 10;
+        } else {
+            MainPage.blackTime += (Game.game.black_left_time % 1000) / 10;
+        }
+
+        MainPage.blackTime += "    " + "\n" + "\n";
+
+        MainPage.whiteTime = "\n" + "---------white--------" + "\n" + "\n" + "       ";
+
+        if (Game.game.white_left_time / 60000 <= 9) {
+            MainPage.whiteTime += "0" + Game.game.white_left_time / 60000 + ":";
+        } else {
+            MainPage.whiteTime += Game.game.white_left_time / 60000 + ":";
+        }
+
+        if ((((Game.game.black_left_time) % 60000) / 1000) <= 9) {
+            MainPage.whiteTime += "0" + ((Game.game.black_left_time) % 60000) / 1000 + ":";
+        } else {
+            MainPage.whiteTime += ((Game.game.black_left_time) % 60000) / 1000 + ":";
+        }
+
+        if (((Game.game.black_left_time % 1000) / 10) <= 9) {
+            MainPage.whiteTime += "0" + (Game.game.black_left_time % 1000) / 10;
+        } else {
+            MainPage.whiteTime += (Game.game.black_left_time % 1000) / 10;
+        }
+
+        MainPage.whiteTime += "    " + "\n" + "\n";
+
+        MainPage.blackTime = MainPage.blackTime.replaceAll("\\n", "<br>");
+        MainPage.blackTime = MainPage.blackTime.replaceAll(" ", "&nbsp;");
+        MainPage.blackTurn.setText("<html>" + MainPage.blackTime.replaceAll("\\n", "<br>") + "</html>");
+
+        MainPage.whiteTime = MainPage.whiteTime.replaceAll("\\n", "<br>");
+        MainPage.whiteTime = MainPage.whiteTime.replaceAll(" ", "&nbsp;");
+        MainPage.whiteTurn.setText("<html>" + MainPage.whiteTime.replaceAll("\\n", "<br>") + "</html>");
+
     }
 
 }

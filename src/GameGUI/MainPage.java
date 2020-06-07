@@ -1,29 +1,35 @@
 package GameGUI;
 
 import Game.Move.Move;
+import PreGame.AccountMenu;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class MainPage extends JFrame implements ActionListener {
+
     static DefaultListModel<String> demoList;
     static JLabel message;
-
     private static Game.Game game;
     private JPanel board = new JPanel(new BorderLayout(3, 3));
     private JPanel gameBoard = new JPanel();
     private JPanel move = new JPanel();
+    private JPanel clock = new JPanel();
     private JPanel total = new JPanel();
+    public static JButton blackTurn;
+    public static JButton whiteTurn;
+    public static JScrollPane scrollPane;
+    public static String blackTime = "\n" + "---------black--------" + "\n" + "\n" + "       " + "20:20:20" + "    " + "\n" + "\n";
+    public static String whiteTime = "\n" + "---------white--------" + "\n" + "\n" + "       " + "20:20:20" + "    " + "\n" + "\n";
+
     private Color backGroundColour = new Color(255, 255, 102);
-
     public static JButton[][] chessBoardSquares = new JButton[8][8];
-
     private static final String COLS = "ABCDEFGH";
+    public static MainPage mainPage = null;
 
     public final void initializeBoard() {
 
@@ -163,8 +169,8 @@ public class MainPage extends JFrame implements ActionListener {
         //adding the Jlist in order to show the moves
 
         demoList = new DefaultListModel<>();
-        demoList.addElement("          double click on move to undo");
-        demoList.addElement("  ");
+        demoList.addElement("   " + "double click on move to undo");
+        demoList.addElement("    ");
         JList<String> list = new JList<>(demoList);
 
         //adding action listener the list so when the move is double clicked, then it will be undone
@@ -182,7 +188,7 @@ public class MainPage extends JFrame implements ActionListener {
                     int a = JOptionPane.showConfirmDialog(MainPage.this, "are you sure to want to undo to this move?");
                     if (a == JOptionPane.YES_OPTION) {
 
-                        if(game.getUndoTurn()<=0){
+                        if (game.getUndoTurn() <= 0) {
                             setMessage("you're out of undo");
                             return;
                         }
@@ -192,7 +198,7 @@ public class MainPage extends JFrame implements ActionListener {
                         game.undo(Move.getAllMoves().size() + 2 - list.getSelectedIndex());
                         GameManager gameManager = new GameManager();
                         demoList.removeAllElements();
-                        demoList.addElement("          double click on move to undo");
+                        demoList.addElement("   " + "double click on move to undo");
                         demoList.addElement("  ");
                         int i = 0;
                         for (Move m : Move.getAllMoves()) {
@@ -215,11 +221,12 @@ public class MainPage extends JFrame implements ActionListener {
 
         //adding the J list to a JScrollPane and making the setting
 
-        JScrollPane scrollPane = new JScrollPane(list);
-        scrollPane.setOpaque(true);
+        scrollPane = new JScrollPane(list);
+        Border border = new LineBorder(new Color(1, 100, 200), 2, true);
+        scrollPane.setBorder(border);
         scrollPane.setBackground(backGroundColour);
-        scrollPane.setPreferredSize(new Dimension(250, 300));
-        scrollPane.setBounds(0, 0, 250, 400);
+        scrollPane.setPreferredSize(new Dimension(200, 284));
+        scrollPane.setBounds(0, 0, 200, 360);
 
         move.add(scrollPane, gbc);
         move.setBackground(backGroundColour);
@@ -232,24 +239,34 @@ public class MainPage extends JFrame implements ActionListener {
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("      game menu      ");
-        JMenu muteMenu = new JMenu("      sound    ");
-        JMenuItem mute = new JMenuItem("    mute    ");
+        JMenu muteMenu = new JMenu("      sound      ");
+        JMenu clockMenu = new JMenu("            clock            ");
+
+        JMenuItem mute = new JMenuItem("       mute     ");
         JMenuItem resetGame = new JMenuItem(" reset the game ");
         JMenuItem undo = new JMenuItem(" undo ");
         JMenuItem giveUp = new JMenuItem(" give up ");
         JMenuItem exit = new JMenuItem(" exit ");
+        JMenuItem gameMenu = new JMenuItem(" game menu ");
+        JMenuItem clock = new JMenuItem("       use a clock       ");
 
         menu.add(resetGame);
         menu.add(undo);
         menu.add(giveUp);
+        menu.add(gameMenu);
         muteMenu.add(mute);
         menu.add(exit);
+        clockMenu.add(clock);
 
         //then adding action listeners
 
         resetGame.addActionListener(e -> {
             int a = JOptionPane.showConfirmDialog(MainPage.this, "are you sure to want to reset?");
             if (a == JOptionPane.YES_OPTION) {
+
+                if (game.isUsingClock()) {
+                    game.setTime(game.getTime());
+                }
 
                 game.undo(Move.getAllMoves().size());
                 demoList.removeAllElements();
@@ -265,8 +282,13 @@ public class MainPage extends JFrame implements ActionListener {
 
         undo.addActionListener(e -> {
 
-            if(game.getUndoTurn()<=0){
+            if (game.getUndoTurn() <= 0) {
                 setMessage("you're out of undo");
+                return;
+            }
+
+            if (game.isUsingClock()) {
+                setMessage("you cannot undo while playing with clock");
                 return;
             }
 
@@ -284,7 +306,7 @@ public class MainPage extends JFrame implements ActionListener {
 
                         demoList.addElement(" " + i + " - " + m.toString());
                     } else {
-                        demoList.addElement("" + i + " - " + m.toString());
+                        demoList.addElement("" + i + "- " + m.toString());
                     }
                 }
                 gameManager.updateBoard();
@@ -322,9 +344,74 @@ public class MainPage extends JFrame implements ActionListener {
             }
         });
 
+        clock.addActionListener(e -> {
+            System.out.println(game.isUsingClock());
+            if (game.isUsingClock()) {
+                clock.setText("    use a clock    ");
+                setNormalMode();
+            } else {
+                String[] options = new String[]{"5", "10", "15", "20"};
+                int response = JOptionPane.showOptionDialog(null, "enter the total time in minutes?", "time",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+                if (response == 0) {
+                    game.setTime(5 * 60 * 1000);
+                } else if (response == 1) {
+                    game.setTime(10 * 60 * 1000);
+                } else if (response == 2) {
+                    game.setTime(15 * 60 * 1000);
+                } else if (response == 3) {
+                    game.setTime(20 * 60 * 1000);
+                }
+                clock.setText("  not use a clock   ");
+                this.clock.setVisible(false);
+                move.setVisible(true);
+                setClockMode();
+                gameManager.updateButtons();
+            }
+            game.setUsingClock(!game.isUsingClock());
+        });
+
+        gameMenu.addActionListener(e -> {
+            game.resetTheGame();
+            if (game.isUsingClock()) {
+                game.setTime(game.getTime());
+            }
+
+            game.undo(Move.getAllMoves().size());
+            demoList.removeAllElements();
+            demoList.addElement("  double click on move to undo");
+            demoList.addElement("  ");
+            int i = 0;
+            message.setText("          start again");
+            gameManager.updateBoard();
+            gameManager.deselect();
+            AccountMenu.accountMenu.setVisible(true);
+            MainPage.mainPage.setVisible(false);
+
+        });
+
         menuBar.add(menu);
         menuBar.add(muteMenu);
+        menuBar.add(clockMenu);
         this.setJMenuBar(menuBar);
+    }
+
+    public void setClockMode() {
+        scrollPane.setVisible(false);
+        total.remove(move);
+        this.getContentPane().remove(move);
+        move.setVisible(false);
+        total.add(clock);
+        clock.setVisible(true);
+    }
+
+    public void setNormalMode() {
+        total.add(move);
+        move.setVisible(true);
+        this.getContentPane().remove(clock);
+        total.remove(clock);
+        clock.setVisible(false);
+        scrollPane.setVisible(true);
     }
 
     public final void initializeTotalPage() {
@@ -332,9 +419,75 @@ public class MainPage extends JFrame implements ActionListener {
         total.setBackground(backGroundColour);
         total.add(gameBoard);
         total.add(move);
+        clock.setVisible(false);
     }
 
-    public MainPage(Game.Game game)  {
+    public final void initializeClock() {
+
+        clock.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = 0;
+        gbc.gridx = 5;
+
+        //adding the icon
+        JLabel icon = new JLabel("");
+        icon.setSize(300, 300);
+        icon.setIcon(new ImageIcon("src/resources/Pictures/chess-pngrepo-com (2).png"));
+        clock.add(icon, gbc);
+
+        JLabel junk1 = new JLabel("           ");
+        gbc.gridy = 2;
+        clock.add(junk1, gbc);
+
+        JLabel junk2 = new JLabel("           ");
+        gbc.gridy = 3;
+        clock.add(junk2, gbc);
+
+        JLabel title = new JLabel("           ");
+        title.setFont(new Font("Arial", Font.PLAIN, 18));
+        gbc.gridy = 5;
+        clock.add(title, gbc);
+
+        JLabel junk3 = new JLabel("           ");
+        gbc.gridy = 8;
+        clock.add(junk3, gbc);
+
+        JLabel junk4 = new JLabel("           ");
+        gbc.gridy = 8;
+        clock.add(junk4, gbc);
+
+        blackTime = blackTime.replaceAll("\\n", "<br>");
+        blackTime = blackTime.replaceAll(" ", "&nbsp;");
+        blackTurn = new JButton("<html>" + blackTime.replaceAll("\\n", "<br>") + "</html>");
+        blackTurn.setFont(new Font("Arial", Font.PLAIN, 18));
+        blackTurn.setBackground(GameManager.normalTileColour);
+        gbc.gridy = 9;
+        clock.add(blackTurn, gbc);
+
+        JLabel junk5 = new JLabel("           ");
+        gbc.gridy = 10;
+        clock.add(junk5, gbc);
+
+        JLabel junk6 = new JLabel("           ");
+        gbc.gridy = 11;
+        clock.add(junk6, gbc);
+
+        JLabel junk7 = new JLabel("           ");
+        gbc.gridy = 12;
+        clock.add(junk7, gbc);
+
+        whiteTime = whiteTime.replaceAll("\\n", "<br>");
+        whiteTime = whiteTime.replaceAll(" ", "&nbsp;");
+        whiteTurn = new JButton("<html>" + whiteTime.replaceAll("\\n", "<br>") + "</html>");
+        whiteTurn.setFont(new Font("Arial", Font.PLAIN, 18));
+        whiteTurn.setBackground(new Color(240, 240, 240));
+        gbc.gridy = 14;
+        clock.add(whiteTurn, gbc);
+
+        clock.setBackground(backGroundColour);
+    }
+
+    public MainPage(Game.Game game) {
 
         //setting image and icon of J frame
 
@@ -342,6 +495,7 @@ public class MainPage extends JFrame implements ActionListener {
         ImageIcon img = new ImageIcon("src/resources/Pictures/chess_piece_king.png");
         this.setIconImage(img.getImage());
 
+        MainPage.mainPage = this;
         MainPage.game = game;
         this.setSize(5500, 3500);
         this.setResizable(false);
@@ -353,7 +507,7 @@ public class MainPage extends JFrame implements ActionListener {
         initializeMove();
         initializeTotalPage();
         initializeMenuBar();
-
+        initializeClock();
         this.getContentPane().add(total);
         this.pack();
         this.setVisible(true);
@@ -382,8 +536,8 @@ public class MainPage extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        int xxx = 0;
-        int yyy = 0;
+        int xxx;
+        int yyy;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (actionEvent.getSource() == chessBoardSquares[i][j]) {
