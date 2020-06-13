@@ -48,29 +48,32 @@ public class Game {
     }
 
     public Colour getTurn() {
-        return turn;
+        if (Move.getAllMoves().size() % 2 == 0) {
+            return Colour.WHITE;
+        } else {
+            return Colour.BLACK;
+        }
     }
 
     public boolean undo() {
-            isFinished = false;
-            if (Move.getAllMoves().size() != 0) {
-                Move move = Move.getLastMove();
-                if (move.hasEnPassant()) {
-                    move.getEnPassantTile().setPiece(move.getEnPassantPiece());
-                }
-                if (move.isCastling()) {
-                    move.getCastling().undo();
-                } else {
-                    move.getToTile().setPiece(move.getPieceKilled());
-                    move.getFromTile().setPiece(move.getPieceMoved());
-                }
-                selected_tile = null;
-                next_turn();
-                Move.getAllMoves().remove(Move.getAllMoves().size() - 1);
-
-                return true;
+        isFinished = false;
+        if (Move.getAllMoves().size() != 0) {
+            Move move = Move.getLastMove();
+            if (move.hasEnPassant()) {
+                move.getEnPassantTile().setPiece(move.getEnPassantPiece());
             }
-            return false;
+            if (move.isCastling()) {
+                move.getCastling().undo();
+            } else {
+                move.getToTile().setPiece(move.getPieceKilled());
+                move.getFromTile().setPiece(move.getPieceMoved());
+            }
+            selected_tile = null;
+            next_turn();
+            Move.getAllMoves().remove(move);
+            return true;
+        }
+        return false;
     }
 
     public void imaginaryUndo() {
