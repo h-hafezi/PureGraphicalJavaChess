@@ -52,7 +52,6 @@ public class Game {
     }
 
     public boolean undo() {
-        if (!hasGiveUp) {
             isFinished = false;
             if (Move.getAllMoves().size() != 0) {
                 Move move = Move.getLastMove();
@@ -72,8 +71,6 @@ public class Game {
                 return true;
             }
             return false;
-        }
-        return false;
     }
 
     public void imaginaryUndo() {

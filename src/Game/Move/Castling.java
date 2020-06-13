@@ -227,7 +227,7 @@ public class Castling {
             board.getTiles()[2][0].setPiece(null);
         } else if (this.castlingType.equals(CastlingType.BLACK_RIGHT)) {
             Rook rook = (Rook) board.getTiles()[5][0].getPiece();
-            board.getTiles()[4][0].setPiece(King.getWhiteKing());
+            board.getTiles()[4][0].setPiece(King.getBlackKing());
             board.getTiles()[7][0].setPiece(rook);
             board.getTiles()[6][0].setPiece(null);
             board.getTiles()[5][0].setPiece(null);

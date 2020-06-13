@@ -237,13 +237,11 @@ public class MainPage extends JFrame implements ActionListener {
         JMenuItem mute = new JMenuItem("       mute     ");
         JMenuItem resetGame = new JMenuItem(" reset the game ");
         JMenuItem undo = new JMenuItem(" undo ");
-        JMenuItem giveUp = new JMenuItem(" give up ");
         JMenuItem exit = new JMenuItem(" exit ");
         JMenuItem clock = new JMenuItem("       use a clock       ");
 
         menu.add(resetGame);
         menu.add(undo);
-        menu.add(giveUp);
         muteMenu.add(mute);
         menu.add(exit);
         clockMenu.add(clock);
@@ -297,17 +295,6 @@ public class MainPage extends JFrame implements ActionListener {
 
             } else {
                 setMessage("there's no move to undo, it's now " + game.getTurn().toString() + " turn");
-            }
-        });
-
-        giveUp.addActionListener(e -> {
-            if (game.isFinished()) {
-                int a = JOptionPane.showConfirmDialog(this, "Are you sure to want to give up");
-                if (a == JOptionPane.YES_OPTION) {
-                    gameManager.giveUp();
-                }
-            } else {
-                setMessage("the game is already finished");
             }
         });
 
