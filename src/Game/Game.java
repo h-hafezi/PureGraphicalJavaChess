@@ -7,7 +7,6 @@ import Game.Tile.Tile;
 public class Game {
     public static Game game;
     private boolean isFinished = false;
-    private boolean hasGiveUp = false;
     private boolean muteness = false;
     private Tile selected_tile;
     private Colour turn;
@@ -48,11 +47,7 @@ public class Game {
     }
 
     public Colour getTurn() {
-        if (Move.getAllMoves().size() % 2 == 0) {
-            return Colour.WHITE;
-        } else {
-            return Colour.BLACK;
-        }
+        return turn;
     }
 
     public boolean undo() {
@@ -111,11 +106,11 @@ public class Game {
     }
 
     public boolean isBlackTurn() {
-        return turn.equals(Colour.BLACK);
+        return getTurn().equals(Colour.BLACK);
     }
 
     public boolean isWhiteTurn() {
-        return turn.equals(Colour.WHITE);
+        return getTurn().equals(Colour.WHITE);
     }
 
     public boolean isFinished() {
