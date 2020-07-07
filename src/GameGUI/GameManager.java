@@ -223,40 +223,6 @@ public class GameManager {
                     }
                 }
 
-                if (Check.isBlackCheckMate()) {
-                    if (!Game.game.getMuteness()) {
-                        checkMate.start();
-                    }
-                    game.setFinished();
-                    MainPage.setMessage("White has won");
-                } else if (Check.isWhiteCheckMate()) {
-                    if (!Game.game.getMuteness()) {
-                        checkMate.start();
-                    }
-                    game.setFinished();
-                    MainPage.setMessage("Black has won");
-                } else if (Check.checkStalemate()) {
-                    if (!Game.game.getMuteness()) {
-                        checkMate.start();
-                    }
-                    game.setFinished();
-                    MainPage.setMessage("no one won, it's a draw");
-                } else if (!Check.isBlackKingChecked() && !Check.isWhiteKingChecked()) {
-                    if (m.getPieceKilled() == null) {
-                        if (!Game.game.getMuteness() && !EnPassent) {
-                            movePiece.start();
-                        }
-                    } else {
-                        if (!Game.game.getMuteness() && !EnPassent) {
-                            killPiece.start();
-                        }
-                    }
-                } else if (Check.isBlackKingChecked() || Check.isWhiteKingChecked()) {
-                    if (!Game.game.getMuteness()) {
-                        check.start();
-                    }
-                }
-
                 //checking whether a pawn has reached the end or not and if it has then it can be transformed
 
                 if (m.checkTransform()) {
@@ -302,6 +268,38 @@ public class GameManager {
                         }
                     }
 
+                } else if (Check.isBlackCheckMate()) {
+                    if (!Game.game.getMuteness()) {
+                        checkMate.start();
+                    }
+                    game.setFinished();
+                    MainPage.setMessage("White has won");
+                } else if (Check.isWhiteCheckMate()) {
+                    if (!Game.game.getMuteness()) {
+                        checkMate.start();
+                    }
+                    game.setFinished();
+                    MainPage.setMessage("Black has won");
+                } else if (Check.checkStalemate()) {
+                    if (!Game.game.getMuteness()) {
+                        checkMate.start();
+                    }
+                    game.setFinished();
+                    MainPage.setMessage("no one won, it's a draw");
+                } else if (!Check.isBlackKingChecked() && !Check.isWhiteKingChecked()) {
+                    if (m.getPieceKilled() == null) {
+                        if (!Game.game.getMuteness() && !EnPassent) {
+                            movePiece.start();
+                        }
+                    } else {
+                        if (!Game.game.getMuteness() && !EnPassent) {
+                            killPiece.start();
+                        }
+                    }
+                } else if (Check.isBlackKingChecked() || Check.isWhiteKingChecked()) {
+                    if (!Game.game.getMuteness()) {
+                        check.start();
+                    }
                 }
 
             }
